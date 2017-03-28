@@ -1,0 +1,44 @@
+/*@import "../../lib/vui.wxss";*/
+
+.header{
+  text-align:center;
+  margin:15px 0;
+}
+.guide-step{
+
+}
+.step-icon{
+  margin:0 10px;
+}
+.guide-step.active{
+  color:#328fee;
+}
+
+.active-btn{
+  margin:10px 15px;
+}
+.active-success-icon{
+  text-align:center;
+}
+
+.btn-container{
+  margin-top:35px;
+}
+.btn-container .vui_btn{
+  margin-top:15px;
+}
+
+.icon-box-img{
+  margin-bottom:10px;
+}
+
+/*设置按钮样式*/
+button[disabled][type="default"], wx-button[disabled]:not([type]) {
+  background-color:#a3c9f2;
+  color:#cce1f7;
+
+}
+button[disabled][type="default"]:active, wx-button[disabled]:not([type]):active {
+  background-color:#a3c9f2;
+  color:#cce1f7;
+}

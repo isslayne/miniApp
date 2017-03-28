@@ -1,0 +1,30 @@
+<view wx:if="{{isActive}}">
+  <view class="header">
+    <text class="guide-step active">1.填写公司</text>
+    <text class="step-icon">></text>
+    <text>2.选择考勤地点</text>
+  </view>
+  <view class="form_cell">
+  <view class="form_cell_title_default">公司</view>
+  <input class="form_cell_body" bindinput="inputCompany" placeholder="请输入您的公司名"/>
+
+  </view>
+
+  <view class="active-btn">
+    <button class="vui_btn vui_btn_primary" type="default" bindtap="chooseLocation" disabled="{{btnDisabled}}">下一步</button>
+  </view>
+</view>
+
+<view wx:if="{{isSuccessActive}}">
+  <view class="active-btn">
+    <view class="active-success-icon">
+      <icon class="icon-box-img" type="success" size="93"></icon>
+      <view>恭喜，您已成功开启移动考勤</view>
+    </view>
+
+    <view class="btn-container">
+      <button class="vui_btn vui_btn_primary" bindtap="shareQRcode">邀请成员加入</button>
+      <button class="vui_btn vui_btn_plain_default" bindtap="startSign">马上使用</button>
+    </view>
+  </view>
+</view>

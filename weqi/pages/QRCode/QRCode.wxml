@@ -1,0 +1,3 @@
+<view class="QRCode-wrap">
+  <image src="../../../images/icon/noRule.png"></image>
+</view>

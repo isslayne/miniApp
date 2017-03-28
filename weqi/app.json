@@ -1,0 +1,44 @@
+{
+  "pages":[
+    "pages/signIn/sign",
+    "pages/record/record",
+    "pages/logs/logs",
+    "pages/map/map",
+    "pages/index/index",
+    "pages/activeSignInfo/active",
+    "pages/QRCode/QRCode",
+    "pages/setRule/rule",
+    "pages/setting/sign",
+    "pages/manage/rule"
+  ],
+  "window":{
+    "backgroundColor": "#efeff4",
+    "backgroundTextStyle":"light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "微企小程序",
+    "navigationBarTextStyle":"black"
+  },
+  "tabBar":{
+    "color": "#7A7E83",
+    "selectedColor": "#328fee",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list":[{
+      "pagePath":"pages/signIn/sign",
+      "text":"打卡",
+      "iconPath":"images/icon/location.png",
+      "selectedIconPath":"images/icon/location_HL.png"
+      },{
+        "pagePath":"pages/record/record",
+        "text":"考勤记录",
+        "iconPath":"images/icon/stats.png",
+        "selectedIconPath":"images/icon/stats_HL.png"
+      },{
+        "pagePath":"pages/manage/rule",
+        "text":"个人中心",
+        "iconPath":"images/icon/profile.png",
+        "selectedIconPath":"images/icon/profile_HL.png"
+      }
+    ]
+  }
+}

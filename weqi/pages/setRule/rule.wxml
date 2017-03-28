@@ -1,0 +1,70 @@
+<view class="form_cell">
+  <view class="form_cell_title_default">规则名称</view>
+  <input class="form_cell_body" bindinput="inputCompany" placeholder="请输入规则名称"/>
+</view>
+
+<view class="rule-list">
+  <!--<view class="rule-items">
+    <view class="rule-item-title">考勤周期</view>
+    <view class="rule-item  active"><text class="rule-item-text">一</text></view>
+    <view class="rule-item  active"><text class="rule-item-text">二</text></view>
+    <view class="rule-item  active"><text class="rule-item-text">三</text></view>
+    <view class="rule-item  active"><text class="rule-item-text">四</text></view>
+    <view class="rule-item  active"><text class="rule-item-text">五</text></view>
+    <view class="rule-item"><text class="rule-item-text">六</text></view>
+    <view class="rule-item"><text class="rule-item-text">日</text></view>
+  </view>-->
+  <view class="rule-items">
+    <view class="rule-item-title">考勤周期</view>
+    <block wx:for="{{list}}" wx:key="{{item.id}}">
+      <view id="{{item.id}}" class="rule-item {{item.selected ? 'active' : ''}}" bindtap="toggleDay">
+        <text class="rule-item-text">{{item.name}}</text>
+      </view>
+    </block>
+  </view>
+
+  <view class="weui-cells weui-cells_after-title">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label">上班时间</view>
+          </view>
+          <view class="weui-cell__bd">
+            <picker mode="time" value="{{startTime}}" start="08:30" bindchange="bindStartTime">
+              <view class="weui-input">{{startTime}}</view>
+            </picker>
+          </view>
+          <view class="navigator-arrow"></view>
+        </view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+              <view class="weui-label">下班时间</view>
+            </view>
+            <view class="weui-cell__bd">
+              <picker mode="time" value="{{endTime}}" start="17:30" bindchange="bindEndTime">
+                <view class="weui-input">{{endTime}}</view>
+              </picker>
+            </view>
+            <view class="navigator-arrow"></view>
+          </view>
+    </view>
+
+    <view class="weui-cells weui-cells_after-title" bindtap="chooseLocation">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+              <view class="weui-label">考勤地点</view>
+            </view>
+            <view class="weui-cell__bd rule-address">{{address}}</view>
+            <view class="navigator-arrow"></view>
+          </view>
+    </view>
+
+
+</view>
+
+<view class="active-btn">
+  <button class="vui_btn vui_btn_primary" type="default" bindtap="chooseLocation" disabled="{{btnDisabled}}">保存</button>
+  <button class="vui_btn vui_btn_plain_default cancel-btn" type="default" bindtap="chooseLocation" disabled="{{btnDisabled}}">取消</button>
+</view>

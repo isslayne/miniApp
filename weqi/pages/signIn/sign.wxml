@@ -1,0 +1,30 @@
+<view class='container'>
+    <block wx:if ="{{noRule ===0}}">
+      <view class="noRule-wrap">
+        <!--<image class="noRule-icon" mode="aspectFit" src="../../../images/icon/noRule.png"></image>-->
+        <image class="noRule-icon" mode="aspectFit" src="{{noRuleIcon}}"></image>
+        <text class="rule-title">还没有考勤规则</text>
+        <block wx:if="{{roleType === 1}}">
+          <text class="rule-content">请联系管理员设置考勤规则</text>
+        </block>
+        <block wx:if="{{roleType === 0 }}">
+          <view class="rule-content">快去<text class="link-text" bindtap="setRule">新建考勤规则</text>吧</view>
+        </block>
+      </view>
+    </block>
+    <block wx:elif ="{{noRule ===1}}">
+      <!--<view class="sign-btn" bindtap="signIn">打卡</view>-->
+      <view class="now-time">当前时间:15:58:51</view>
+      <view class="now-time">{{liveTime}}</view>
+      <image class="signIn-icon" mode="aspectFit" src="{{signInIcon}}" animation = "{{animation}}" bindtap="rotateAnimation"></image>
+      <text>正在为您打卡，请稍等</text>
+    </block>
+
+    <block wx:elif ="{{noRule ===2}}">
+      <!--<view class="sign-btn" bindtap="signIn">打卡</view>-->
+      <view class="now-day">开始崭新的一天</view>
+      <view class="now-time">当前时间:15:59:22</view>
+      <image class="signIn-icon" mode="aspectFit" src="{{signSucIcon}}" bindtap="signIn"></image>
+      <text>{{signInfo.address}}</text>
+    </block>
+</view>
