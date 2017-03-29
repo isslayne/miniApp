@@ -52,7 +52,11 @@ Page({
       address:signData.address,
       latitude:signData.latitude,
       longitude:signData.longitude,
-      addressName:signData.name
+      addressName:signData.name,
+      signScope:1000,
+      workOnTime:'08:30',
+      workOffTime:'17:30',
+      workDay:[1,2,3,4,5]
     };
 
     var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName) ||app.getUserInfo(function(){
@@ -69,7 +73,7 @@ Page({
     userConfig.ruleList.push(rule);
 
     wx.setStorage({
-      key:'Layne',
+      key:app.globalData.userInfo.nickName,
       data:userConfig,
       success:function(){
         wx.showToast({
@@ -82,7 +86,7 @@ Page({
             });
           },
           fail:function(){
-            
+
           }
         });
 

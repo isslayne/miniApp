@@ -1,0 +1,32 @@
+.container{
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+.sign-btn{
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+    color:#fff;
+    line-height:128rpx;
+    text-align:center;
+    background-color:#328fee;
+}
+.noRule-icon{
+  height:156px;
+}
+.noRule-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
+
+.rule-title{
+  margin-top:25px;
+  font-size:18px;
+  color:#000;
+}
+.rule-content{
+  margin-top:10px;
+  color:#888;
+}

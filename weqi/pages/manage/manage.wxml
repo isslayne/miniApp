@@ -1,0 +1,23 @@
+<view class="form_cell rule-setting-cell" bindtap="getRulePage">
+  <view class="form_cell_title_default"><image class="icon-setting" src="{{icon_setting}}"></image>规则设置</view>
+
+  <view class="navigator-arrow"></view>
+</view>
+
+<view class="rule-list">
+  <view class="rule-items rule-setting-cell" bindtap="inputCompany">
+    <view class="rule-item-title"><image class="icon-contact" src="{{icon_contact}}"></image>成员管理</view>
+
+      <view class="navigator-arrow"></view>
+  </view>
+
+  <view class="weui-cells weui-cells_after-title rule-setting-cell">
+        <view class="weui-cell weui-cell_input">
+          <view class="weui-cell__hd">
+            <view class="weui-label"><image class="icon-add" src="{{icon_add}}"></image>邀请成员</view>
+          </view>
+
+          <view class="navigator-arrow"></view>
+        </view>
+  </view>
+</view>

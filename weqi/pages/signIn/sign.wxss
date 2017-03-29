@@ -1,5 +1,6 @@
 .container{
     font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+    padding-bottom:0;
 }
 .sign-btn{
     width: 128rpx;
@@ -37,8 +38,43 @@
 .now-time{
   color:#328fee;
   font-size:20px;
-  margin-bottom:10px;
+  margin-bottom:20px;
 }
 .now-day{
   margin-bottom:10px;
+}
+.signIn-text{
+margin-top:-70px;
+color:#fff;
+}
+
+.sign-list{
+  margin:80px 30px 0;
+}
+.sign-list-title{
+  margin-bottom:15px;
+}
+
+.list-item{
+  position:relative;
+  padding-bottom:20px;
+  padding-left:15px;
+  border-left:1px solid #888;
+  line-height:1.8;
+}
+
+.list-icon{
+  width:25px;
+  height:25px;
+  top:-1px;
+  left:-13px;
+  position:absolute;
+
+}
+
+.record-address{
+  color:#888;
+}
+.workOnTime{
+  color:#328fee;
 }

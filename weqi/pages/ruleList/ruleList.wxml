@@ -1,0 +1,20 @@
+<view class="container">
+  <block wx:if= "{{noRule}}">
+    <view class="noRule-wrap">
+      <image class="noRule-icon" mode="aspectFit" src="{{noRuleIcon}}"></image>
+      <text class="rule-title">还没有考勤规则</text>
+      <view class="rule-content">新建考勤规则吧</view>
+    </view>
+  </block>
+  <block wx:else>
+    <block wx:for="{{ruleList}}" wx:key="{{item.id}}">
+      <view class="form_cell rule-setting-cell" id="{{item.id}}" bindtap="setDetailRule">
+        <view class="form_cell_title_default">
+          <view class="ruleList-title">{{item.name}}</view>
+          <view class="ruleList-subTitle"><text>{{item.workDay}}</text><text class="workTime">{{item.workOnTime}}-{{item.workOffTime}}</text></view>
+        </view>
+        <view class="navigator-arrow"></view>
+      </view>
+    </block>
+  </block>
+</view>

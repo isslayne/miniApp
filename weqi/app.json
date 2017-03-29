@@ -8,8 +8,9 @@
     "pages/activeSignInfo/active",
     "pages/QRCode/QRCode",
     "pages/setRule/rule",
-    "pages/setting/sign",
-    "pages/manage/rule"
+    "pages/setting/setting",
+    "pages/manage/manage",
+    "pages/ruleList/ruleList"
   ],
   "window":{
     "backgroundColor": "#efeff4",
@@ -34,7 +35,7 @@
         "iconPath":"images/icon/stats.png",
         "selectedIconPath":"images/icon/stats_HL.png"
       },{
-        "pagePath":"pages/manage/rule",
+        "pagePath":"pages/manage/manage",
         "text":"个人中心",
         "iconPath":"images/icon/profile.png",
         "selectedIconPath":"images/icon/profile_HL.png"

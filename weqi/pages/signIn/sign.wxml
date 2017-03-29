@@ -14,7 +14,7 @@
     </block>
     <block wx:elif ="{{noRule ===1}}">
       <!--<view class="sign-btn" bindtap="signIn">打卡</view>-->
-      <view class="now-time">当前时间:15:58:51</view>
+      <view>当前时间</view>
       <view class="now-time">{{liveTime}}</view>
       <image class="signIn-icon" mode="aspectFit" src="{{signInIcon}}" animation = "{{animation}}" bindtap="rotateAnimation"></image>
       <text>正在为您打卡，请稍等</text>
@@ -22,9 +22,28 @@
 
     <block wx:elif ="{{noRule ===2}}">
       <!--<view class="sign-btn" bindtap="signIn">打卡</view>-->
-      <view class="now-day">开始崭新的一天</view>
-      <view class="now-time">当前时间:15:59:22</view>
+      <view>开始崭新的一天</view>
+      <view class="now-time">{{signTime}}</view>
       <image class="signIn-icon" mode="aspectFit" src="{{signSucIcon}}" bindtap="signIn"></image>
-      <text>{{signInfo.address}}</text>
+      <text class="signIn-text" bindtap="signIn">打卡</text>
+      <!--<text class="sign-address">{{signInfo.address}}</text>-->
     </block>
+
+    <view class="sign-list">
+      <view class="sign-list-title">打卡记录</view>
+      <block wx:for="{{signInfo.recordList}}" wx:key="{{item.id}}">
+        <view class="list-item">
+          <block wx:if="{{index === 0}}">
+            <image class="list-icon" mode="aspectFit" src="{{signListIconSelected}}"></image>
+            <view class="record-time workOnTime">上班时间：<text class="record-list-time">{{item.signInTime}}</text></view>
+          </block>
+          <block wx:else>
+            <image class="list-icon" mode="aspectFit" src="{{signListIcon}}"></image>
+            <view class="record-time">打卡时间：<text class="record-list-time">{{item.signInTime}}</text></view>
+          </block>
+            <view class="record-address">打卡地点：<text class="record-list-address">{{item.address}}</text></view>
+        </view>
+      </block>
+    </view>
+
 </view>
