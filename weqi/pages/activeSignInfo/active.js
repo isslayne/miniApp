@@ -59,45 +59,50 @@ Page({
       workDay:[1,2,3,4,5]
     };
 
-    var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName) ||app.getUserInfo(function(){
-      return wx.getStorageSync(app.globalData.userInfo.nickName);
+    // var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName) ||app.getUserInfo(function(){
+    //   return wx.getStorageSync(app.globalData.userInfo.nickName);
+    // });
+    app.getUserInfo(function(userInfo){
+      var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+
+      userConfig.ruleList = [];
+      userConfig.ruleType = 1;
+      userConfig.hasRule = true;
+      userConfig.hasCompany = true;
+      userConfig.company = {
+        name:_this.data.companyName
+      };
+      userConfig.ruleList.push(rule);
+
+      wx.setStorage({
+        key:app.globalData.userInfo.nickName,
+        data:userConfig,
+        success:function(){
+          wx.showToast({
+            title:'保存成功',
+            icon:'success',
+            success:function(){
+              _this.setData({
+                isActive:false,
+                isSuccessActive:true
+              });
+            },
+            fail:function(){
+
+            }
+          });
+
+        },
+        fail:function(){
+          wx.showToast({
+            title:'保存数据失败',
+            icon:'success',
+          })
+        }
+      });
+
     });
 
-    userConfig.ruleList = [];
-    userConfig.ruleType = 1;
-    userConfig.hasRule = true;
-    userConfig.hasCompany = true;
-    userConfig.company = {
-      name:_this.data.companyName
-    };
-    userConfig.ruleList.push(rule);
-
-    wx.setStorage({
-      key:app.globalData.userInfo.nickName,
-      data:userConfig,
-      success:function(){
-        wx.showToast({
-          title:'保存成功',
-          icon:'success',
-          success:function(){
-            _this.setData({
-              isActive:false,
-              isSuccessActive:true
-            });
-          },
-          fail:function(){
-
-          }
-        });
-
-      },
-      fail:function(){
-        wx.showToast({
-          title:'保存数据失败',
-          icon:'success',
-        })
-      }
-    });
   },
   activeSignApp:function(){
     wx.request({

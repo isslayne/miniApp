@@ -1,0 +1,20 @@
+<view class='container'>
+    <block wx:if ="{{noRule}}">
+      <view class="noRule-wrap">
+        <!--<image class="noRule-icon" mode="aspectFit" src="../../../images/icon/noRule.png"></image>-->
+        <image class="noRule-icon" mode="aspectFit" src="{{noRuleIcon}}"></image>
+        <text class="rule-title">还没有成员加入</text>
+        <block wx:if="{{roleType === 1}}">
+          <text class="rule-content">请联系管理员设置考勤规则</text>
+        </block>
+        <block wx:if="{{roleType === 0 }}">
+          <view class="rule-content link-text"><text class="link-text" bindtap="setRule">马上邀请成员加入</text></view>
+        </block>
+      </view>
+    </block>
+    <block wx:else>
+      <view class="sign-btn" bindtap="signIn">打卡</view>
+      <text>{{signInfo.address}}</text>
+    </block>
+
+</view>

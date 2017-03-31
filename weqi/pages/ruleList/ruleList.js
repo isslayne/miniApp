@@ -3,9 +3,10 @@ var config = require('../../config');
 
 Page({
   data:{
-
+    noRuleIcon:config.icon.noRule,
+    addIcon:config.icon.addIcon
   },
-  onload:function(){
+  onLoad:function(){
     this.checkUserConfig();
   },
   checkUserConfig:function(){
@@ -14,11 +15,47 @@ Page({
     app.getUserInfo(function(userInfo){
       var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
 
+      _this.userKey = app.globalData.userInfo.nickName;
       if(userConfig.hasRule){
         if(userConfig.ruleList && userConfig.ruleList.length){
-          //已经设置规则，开始定位打卡
+
           _this.ruleList = userConfig.ruleList;
           _this.userConfig = userConfig;
+
+          var workDayRule = _this.ruleList[0].workDay;
+
+          _this.ruleList.forEach(function(item){
+            var workDayRule = item.workDay;
+            var workRule = [];
+
+            workDayRule.forEach(function(itm,index){
+              switch(itm){
+                case 1:
+                  workRule.push('一');
+                  break;
+                case 1:
+                  workRule.push('二');
+                  break;
+                case 3:
+                  workRule.push('三');
+                  break;
+                case 4:
+                  workRule.push('四');
+                  break;
+                case 5:
+                  workRule.push('五');
+                  break;
+                case 6:
+                  workRule.push('六');
+                  break;
+                case 7:
+                  workRule.push('七');
+                  break;
+              }
+            });
+            item.workDay = workRule;
+          });
+
 
           _this.setData({
             noRule:false,
@@ -42,4 +79,31 @@ Page({
 
 
   },
+  createRule:function(){
+    var _this = this;
+    this.userConfig.currentRule ={};
+    wx.setStorage({
+      key:_this.userKey,
+      data:_this.userConfig
+    })
+    wx.navigateTo({
+      url:'../setRule/rule'
+    })
+  },
+  setDetailRule:function(e){
+    var _this = this;
+    console.log(JSON.stringify(e));
+    var id= e.currentTarget.id;
+    //所选的规则
+    this.userConfig.currentRule = this.userConfig.ruleList[id];
+    wx.setStorage({
+      key:_this.userKey,
+      data:_this.userConfig
+    })
+
+    wx.navigateTo({
+      url:'../setRule/rule'
+    })
+
+  }
 });

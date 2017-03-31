@@ -46,7 +46,7 @@ Page({
     this.rotateAnimation();
   },
   onShow:function(){
-      this.checkUserConfig();
+      // this.checkUserConfig();
   },
   onPullDownRefresh:function(){
     // this.checkUserConfig();

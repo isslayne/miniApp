@@ -55,7 +55,12 @@ Page({
   },
   inputCompany:function(){
     wx.navigateTo({
-      url:'../setting/setting'
+      url:'../setContact/setContact'
+    })
+  },
+  inviteContact:function(){
+    wx.navigateTo({
+      url:'../QRCode/QRCode'
     })
   }
 })

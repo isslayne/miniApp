@@ -8,9 +8,10 @@
     "pages/activeSignInfo/active",
     "pages/QRCode/QRCode",
     "pages/setRule/rule",
-    "pages/setting/setting",
+    "pages/setContact/setContact",
     "pages/manage/manage",
-    "pages/ruleList/ruleList"
+    "pages/ruleList/ruleList",
+    "pages/detailRecord/detailRecord"
   ],
   "window":{
     "backgroundColor": "#efeff4",

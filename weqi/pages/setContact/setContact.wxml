@@ -1,0 +1,22 @@
+<view>
+    <block wx:if ="{{noContact}}">
+      <view class="container noRule-wrap">
+        <!--<image class="noRule-icon" mode="aspectFit" src="../../../images/icon/noRule.png"></image>-->
+        <image class="noRule-icon" mode="aspectFit" src="{{noContactIcon}}"></image>
+        <text class="rule-title">还没有成员加入</text>
+        <view class="rule-content link-text"><text class="link-text" bindtap="inviteContact">马上邀请成员加入</text></view>
+      </view>
+    </block>
+    <block wx:else>
+
+      <view class="form_cell rule-setting-cell" bindtap="setDetailRule">
+        <image class="icon-contact" src="{{icon_contact}}"></image>
+        <view class="form_cell_title_default">
+          <view class="ruleList-title">王大锤</view>
+          <view class="ruleList-subTitle"><text>ued 测试</text></view>
+        </view>
+        <view class="contact-status">已同意</view>
+      </view>
+    </block>
+
+</view>

@@ -1,4 +1,25 @@
-@import "../../lib/weui.wxss"
+.container{
+    font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
+}
+.sign-btn{
+    width: 128rpx;
+    height: 128rpx;
+    margin: 20rpx;
+    border-radius: 50%;
+    color:#fff;
+    line-height:128rpx;
+    text-align:center;
+    background-color:#328fee;
+}
+.noRule-icon{
+  height:156px;
+}
+.noRule-wrap{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+}
 
 .rule-title{
   margin-top:25px;
@@ -69,6 +90,7 @@
 
 .weui-input{
   text-align:right;
+  margin-right:15px;
   height:2.353em;
   line-height:2.353em;
 }
@@ -80,7 +102,7 @@
   line-height:2.353em;
 }
 .navigator-arrow:after{
-
+  //top:55%;
 }
 .rule-address{
   text-align:right;
@@ -126,11 +148,9 @@
 }
 .navigator-arrow{
   position:static;
-  flex:0.8;
 }
 .rule-setting-cell{
   padding:10px 0 10px 15px;
-  border-bottom:0;
 }
 
 .form_cell_title_default{
@@ -148,7 +168,6 @@
   align-items:flex-start;
   justify-content:space-between;
   box-sizing:border-box;
-  color:#888;
 }
 
 .createRule-icon{
@@ -165,7 +184,6 @@ position:absolute;
 top:50%;
 margin-top:-8rpx;
 right:28rpx;
-color:#328fee;
 
 }
 
@@ -178,90 +196,4 @@ position:absolute;
 left:5px;
 width:40px;
 height:40px;
-}
-
-.weui-input {
-  text-align:center;
-}
-
-.navigator-arrow-left:after{
-  left:100px;
-  right:auto;
-  transform:rotate(225deg);
-}
-.navigator-arrow-right:after{
-  right:86px;
-}
-
-.record-type-tab{
-  display:flex;
-  flex-direction:column;
-  background-color:#fff;
-  border-top:1px solid #e5e5e5;
-}
-.record-type-row {
-  display:flex;
-  flex:1;
-  flex-direction:column;
-  justify-content:center;
-  align-items:center;
-  border-right:1px solid #e5e5e5;
-  border-bottom:1px solid #e5e5e5;
-  box-sizing:border-box;
-  padding:15px 10px
-}
-.record-type-row:last-child{
-  border-right:0;
-}
-.record-type-column {
-  display:flex;
-  flex-direction:row;
-  justify-content:center;
-  align-items:center;
-}
-
-.record-type-status:before{
-    content:" ";
-    border-radius:50%;
-    display:inline-block;
-    width:5px;
-    height:5px;
-    position:relative;
-    top:-2px;
-    right:5px;
-}
-.record-status-normal:before{
-    border:2px solid #328fee;
-    background-color:#328fee;
-}
-.record-status-late:before,.record-status-leave:before,.record-status-absence:before{
-  border:2px solid #fc3d39;
-  background-color:#fc3d39;
-}
-.record-status-outside:before,.record-status-vacation:before{
-  border:2px solid #36b152;
-  background-color:#36b152;
-}
-
-
-
-
-
-.sign-list{
-
-}
-.sign-list-title{
-  margin:10px 15px;
-  color:#888;
-}
-
-.list-item{
-  position:relative;
-  padding:10px 15px;
-  border-bottom:1px solid #e5e5e5;
-  line-height:1.8;
-  background-color:#fff;
-}
-.record-address{
-  color:#888;
 }

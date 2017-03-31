@@ -11,7 +11,7 @@
       <view class="navigator-arrow"></view>
   </view>
 
-  <view class="weui-cells weui-cells_after-title rule-setting-cell">
+  <view class="weui-cells weui-cells_after-title rule-setting-cell" bindtap="inviteContact">
         <view class="weui-cell weui-cell_input">
           <view class="weui-cell__hd">
             <view class="weui-label"><image class="icon-add" src="{{icon_add}}"></image>邀请成员</view>

@@ -1,3 +1,74 @@
 <view>
-  <text>考勤记录</text>
+  <view class="form_cell rule-setting-cell">
+    <image class="icon-contact" src="{{icon_contact}}"></image>
+    <view class="form_cell_title_default">
+      <view class="ruleList-title">{{name}}</view>
+        <view class="ruleList-subTitle"><text>{{company}}</text></view>
+      </view>
+    <view class="contact-status" bindtap="getDetailRecord">查看月详情</view>
+  </view>
+
+  <view class="weui-cells weui-cells_after-title">
+    <view class="weui-cell weui-cell_input">
+      <!--<view class="weui-cell__hd">
+        <view class="weui-label">当前选择</view>
+      </view>-->
+      <view class="navigator-arrow navigator-arrow-left" bindtap="getPrevDate"></view>
+      <view class="weui-cell__bd">
+        <picker mode="date" value="{{date}}" start="2015-09-01" end="2017-09-01" bindchange="bindDateChange">
+          <view class="weui-input">{{localDate}}</view>
+        </picker>
+      </view>
+      <view class="navigator-arrow navigator-arrow-right" bindtap="getNextDate"></view>
+    </view>
+  </view>
+
+  <view class="record-type-tab">
+    <view class ="record-type-column">
+      <view class="record-type-row">
+        <view class="record-type-status record-status-normal">正常</view>
+        <view class="record-type-time">10天</view>
+      </view>
+      <view class="record-type-row">
+        <view class="record-type-status record-status-late">迟到</view>
+        <view class="record-type-time">10天</view>
+      </view>
+      <view class="record-type-row">
+        <view class="record-type-status record-status-leave">早退</view>
+        <view class="record-type-time">10天</view>
+      </view>
+    </view>
+    <view class="record-type-column">
+      <view class="record-type-row">
+        <view class="record-type-status record-status-absence">旷工</view>
+        <view class="record-type-time">10天</view>
+      </view>
+      <view class="record-type-row">
+        <view class="record-type-status record-status-outside">外勤</view>
+        <view class="record-type-time">10天</view>
+      </view>
+      <view class="record-type-row">
+        <view class="record-type-status record-status-vacation">休假</view>
+        <view class="record-type-time">10天</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="sign-list">
+    <view class="sign-list-title">打卡记录</view>
+    <block wx:if="{{signInfo.hasRecord}}">
+      <block wx:for="{{signInfo.recordList}}" wx:key="{{item.id}}">
+        <view class="list-item">
+          <view class="record-time">打卡时间：<text class="record-list-time">{{item.signInTime}}</text></view>
+          <view class="record-address">打卡地点：<text class="record-list-address">{{item.address}}</text></view>
+        </view>
+      </block>
+    </block>
+    <block wx:else>
+        <view class="list-item">暂无考勤记录</view>
+    </block>
+
+  </view>
+
+
 </view>
