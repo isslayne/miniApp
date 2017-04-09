@@ -1,0 +1,76 @@
+.form_cell{
+  margin-top:20px;
+  display:block;
+  height:auto;
+}
+
+.rule-setting-cell{
+  position:relative;
+  padding:10px 0 10px 15px;
+}
+
+
+.form_cell_title_default,.rule-item-title,.weui-label{
+  width:auto;
+  box-sizing:border-box;
+}
+.form_cell_title_default{
+  margin-left:40px;
+}
+.icon-contact {
+  position:absolute;
+  left:5px;
+  width:46px;
+  height:46px;
+  margin-right:10px;
+  top:50%;
+  margin-top:-23px;
+}
+.ruleList-subTitle {
+  padding-right:65px;
+  text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+  color:#888;
+  font-size:12px;
+  margin-top:5px;
+}
+
+.contact-status {
+  position:absolute;
+  top:50%;
+  margin-top:-8rpx;
+  right:28rpx;
+}
+
+.form_cell_remark_title{
+  width:auto;
+  box-sizing:border-box;
+}
+.form_cell_remark{
+  margin-top:0;
+  border-top:0;
+}
+
+.ruleList-remark-title{
+  color:#888;
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+
+.submit-btn{
+  margin:25px 15px;
+}
+
+.button[type="default"] {
+  color:#000000;
+  background-color:#F8F8F8;
+}
+
+.vui_btn_plain_default {
+  border-color:#dfdfdf;
+}
+.cancel-btn {
+  margin-top:15px;
+}

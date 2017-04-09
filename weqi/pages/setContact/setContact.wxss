@@ -33,60 +33,14 @@
 
 .form_cell{
   margin-top:20px;
-  flex-direction:column;
-  webkit-box-align:flex-start;
-  -webkit-align-items:flex-start;
-  -ms-flex-align:flex-start;
-  align-items:flex-start;
-  justify-content:center
+  display:block;
 }
 
 .rule-list{
   margin-top:20px;
   background-color:#fff;
 }
-.rule-items{
-  display: -webkit-box;
-  display: -webkit-flex;
-  display: -ms-flexbox;
-  display:flex;
-  height:40px;
-  flex-direction:row;
-  align-items:center;
-  -webkit-box-align: center;
-  -webkit-align-items: center;
-  -ms-flex-align: center;
-  padding:0 15px;
-  background-color:#fff;
-}
-.rule-item{
-  -webkit-box-flex: 1;
-  -webkit-flex: 1;
-  -ms-flex: 1;
-  flex: 1;
-  justify-content:center;
-  display:flex;
-  flex-direction:row;
-  align-items:center;
-}
-.rule-item-title{
-  width:80px;
-  /*margin-left:15px;*/
-}
-.rule-item-text{
-  width:26px;
-  height:26px;
-  border-radius: 50%;
-  line-height:26px;
-  text-align:center;
-  border:1px solid #888;
-}
 
-.active .rule-item-text{
-  color:#fff;
-  background-color:#328fee;
-  border-color:#328fee;
-}
 
 .weui-input{
   text-align:right;
@@ -135,11 +89,6 @@
 }
 .form_cell_title_default,.rule-item-title,.weui-label{
   width:auto;
-  display:flex;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
   box-sizing:border-box;
 }
 
@@ -154,20 +103,15 @@
 }
 
 .form_cell_title_default{
-  display:flex;
-  flex-direction:column;
-  align-items:flex-start;
-  justify-content:space-between;
-  box-sizing:border-box;
   margin-left:35px;
 
 }
 .ruleList-subTitle {
-  display:flex;
-  flex-direction:row;
-  align-items:flex-start;
-  justify-content:space-between;
-  box-sizing:border-box;
+  padding-right:65px;
+  text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+
 }
 
 .createRule-icon{
@@ -184,7 +128,6 @@ position:absolute;
 top:50%;
 margin-top:-8rpx;
 right:28rpx;
-
 }
 
 .contact-cell {
@@ -196,4 +139,11 @@ position:absolute;
 left:5px;
 width:40px;
 height:40px;
+}
+
+.status-submit{
+  background-color:#328fee;
+  border-radius:2px;
+  padding:5px 10px;
+  color:#fff;
 }

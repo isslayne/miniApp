@@ -1,0 +1,10 @@
+
+<view class="member-cell">
+  <view>世纪21cn有限责任公司</view>
+  <view class="member-subTitle">请输入验证信息</view>
+</view>
+
+<view class="form_cell">
+  <view class="form_cell_title_default">姓名</view>
+  <input class="form_cell_body" bindinput="inputCompany" placeholder="请输入真实姓名"/>
+</view>

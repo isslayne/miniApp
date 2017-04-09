@@ -160,13 +160,11 @@
 }
 
 .contact-status {
-
 position:absolute;
 top:50%;
 margin-top:-8rpx;
 right:28rpx;
 color:#328fee;
-
 }
 
 .contact-cell {

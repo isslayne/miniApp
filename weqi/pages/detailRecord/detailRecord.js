@@ -1,6 +1,12 @@
+var app = getApp();
+var config = require('../../config');
+
 const conf = {
   data: {
-    hasEmptyGrid: false
+    icon_contact:config.icon.icon_contact,
+    signListIcon:config.icon.signListIcon,
+    hasEmptyGrid: false,
+    pickedDay:''
   },
   getSystemInfo() {
     try {
@@ -45,22 +51,43 @@ const conf = {
     const thisMonthDays = this.getThisMonthDays(year, month);
 
     for (let i = 1; i <= thisMonthDays; i++) {
-      days.push(i);
+      var item ={};
+      item.day = i;
+      item.date = this.formatDate(year)+ '-'+this.formatDate(month) +'-'+ this.formatDate(i);
+      days.push(item);
     }
 
     this.setData({
       days
     });
   },
+  formatDate:function(num){
+    return num = Number(num) <10 ? '0'+num : num;
+  },
+  getDayRecord:function(e){
+    var targetDay = e.currentTarget.dataset.date;
+
+    this.setData({
+      pickedDay:targetDay
+    })
+
+  },
   onLoad(options) {
     const date = new Date();
     const cur_year = date.getFullYear();
     const cur_month = date.getMonth() + 1;
+    const cur_day = date.getDate();
     const weeks_ch = ['日', '一', '二', '三', '四', '五', '六'];
+    const cur_dateDay = this.formatDate(cur_year) +'-'+this.formatDate(cur_month)+'-'+this.formatDate(cur_day);
+
     this.calculateEmptyGrids(cur_year, cur_month);
     this.calculateDays(cur_year, cur_month);
+
+    this.checkUserConfig();
     //this.getSystemInfo();
     this.setData({
+      pickedDay:cur_dateDay,
+      cur_dateDay,
       cur_year,
       cur_month,
       weeks_ch
@@ -103,11 +130,56 @@ const conf = {
       })
     }
   },
+  checkUserConfig:function(){
+    var _this = this;
+    var hasRecord = true;
+
+    app.getUserInfo(function(userInfo){
+      var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+
+      if(userConfig.hasRule){
+        if(userConfig.ruleList && userConfig.ruleList.length){
+          //已经设置规则，开始定位打卡
+          _this.ruleList = userConfig.ruleList;
+          _this.userConfig = userConfig;
+
+          if(_this.userConfig.recordList.length === 0){
+            hasRecord = false;
+          }
+          _this.setData({
+            noRule:2,
+            roleType:userConfig.ruleType,
+            name:app.globalData.userInfo.nickName,
+            company:_this.userConfig.company.name,
+            signInfo:{
+              recordList: _this.userConfig.recordList,
+              hasRecord: hasRecord
+            }
+          })
+        }else{
+          _this.setData({
+            noRule:0,
+            roleType:userConfig.ruleType
+          })
+        }
+      }else{
+        wx.redirectTo({
+          url:'../activeSignInfo/active'
+        });
+      }
+
+    });
+  },
+  getRecordStatistic:function(){
+    wx.navigateBack({
+      delta:1
+    })
+  },
   onShareAppMessage() {
     return {
-      title: '小程序日历',
-      desc: '还是新鲜的日历哟',
-      path: 'pages/index/index'
+      title: '移动考勤小程序',
+      desc: '移动考勤',
+      path: 'pages/signIn/sign'
     }
   }
 };

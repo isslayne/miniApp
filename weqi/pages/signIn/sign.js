@@ -20,9 +20,9 @@ Page({
     // wx.redirectTo({
     //   url:'../logs/logs'
     // });
-    // wx.redirectTo({
-    //   url:'../activeSignInfo/active'
-    // });
+    wx.redirectTo({
+      url:'../addMember/member'
+    });
 
     this.animation = wx.createAnimation({
         duration:100
@@ -43,7 +43,7 @@ Page({
 
     this.liveTime();
 
-    this.rotateAnimation();
+    // this.rotateAnimation();
   },
   onShow:function(){
       // this.checkUserConfig();

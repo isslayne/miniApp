@@ -1,0 +1,19 @@
+<view class="form_cell rule-setting-cell">
+  <image class="icon-contact" src="{{icon_contact}}"></image>
+  <view class="form_cell_title_default">
+    <view class="ruleList-title">王大锤</view>
+    <view class="ruleList-subTitle"><text>等待验证</text></view>
+  </view>
+</view>
+
+<view class="form_cell rule-setting-cell form_cell_remark">
+  <view class="form_cell_remark_title">
+    <view class="ruleList-remark-title">验证信息</view>
+    <view class="ruleList-remark-subTitle"><text>我叫王大锤</text></view>
+  </view>
+</view>
+
+<view class="submit-btn">
+  <button class="vui_btn vui_btn_primary" type="default" bindtap="chooseLocation" disabled="{{btnDisabled}}">同意</button>
+  <button class="vui_btn vui_btn_plain_default cancel-btn" type="default" bindtap="chooseLocation" disabled="{{btnDisabled}}">拒绝</button>
+</view>

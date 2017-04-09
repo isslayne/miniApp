@@ -16,8 +16,9 @@
       <!--<view class="sign-btn" bindtap="signIn">打卡</view>-->
       <view>当前时间</view>
       <view class="now-time">{{liveTime}}</view>
-      <image class="signIn-icon" mode="aspectFit" src="{{signInIcon}}" animation = "{{animation}}" bindtap="rotateAnimation"></image>
-      <text>正在为您打卡，请稍等</text>
+      <image class="signIn-icon signIn-animation" mode="aspectFit" src="{{signInIcon}}" animation = "{{animation}}" bindtap="rotateAnimation"></image>
+      <text class="location-text">定位中...</text>
+      <text class="location-tips">正在为您打卡，请稍等</text>
     </block>
 
     <block wx:elif ="{{noRule ===2}}">

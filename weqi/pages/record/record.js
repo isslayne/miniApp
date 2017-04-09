@@ -186,7 +186,7 @@ Page({
     return singleDate;
   },
   getDetailRecord:function(){
-    wx.redirectTo({
+    wx.navigateTo({
       url:'../detailRecord/detailRecord'
     });
   }

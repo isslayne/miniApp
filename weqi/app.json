@@ -11,7 +11,11 @@
     "pages/setContact/setContact",
     "pages/manage/manage",
     "pages/ruleList/ruleList",
-    "pages/detailRecord/detailRecord"
+    "pages/detailRecord/detailRecord",
+    "pages/setContact/detail/detail",
+    "pages/addMember/member",
+    "pages/memberStatus/status"
+
   ],
   "window":{
     "backgroundColor": "#efeff4",

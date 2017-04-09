@@ -17,6 +17,22 @@
         </view>
         <view class="contact-status">已同意</view>
       </view>
+      <view class="form_cell rule-setting-cell" bindtap="setDetailRule">
+        <image class="icon-contact" src="{{icon_contact}}"></image>
+        <view class="form_cell_title_default">
+          <view class="ruleList-title">王小二</view>
+          <view class="ruleList-subTitle"><text>大磨坊</text></view>
+        </view>
+        <view class="contact-status">已拒绝</view>
+      </view>
+      <view class="form_cell rule-setting-cell" bindtap="setDetailRule">
+        <image class="icon-contact" src="{{icon_contact}}"></image>
+        <view class="form_cell_title_default">
+          <view class="ruleList-title">王小二</view>
+          <view class="ruleList-subTitle"><text>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</text></view>
+        </view>
+        <view class="contact-status status-submit" bindtap="approveContact">同意</view>
+      </view>
     </block>
 
 </view>
