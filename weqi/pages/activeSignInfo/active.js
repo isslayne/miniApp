@@ -19,7 +19,6 @@ Page({
       companyName:e.detail.value,
       btnDisabled:false
     });
-    console.log(e.detail.value.trim().length);
   },
   chooseLocation: function () {
     // this.mapCtx.moveToLocation()
@@ -63,10 +62,11 @@ Page({
     //   return wx.getStorageSync(app.globalData.userInfo.nickName);
     // });
     app.getUserInfo(function(userInfo){
-      var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+
+      var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName) || {ruleType:0,hasCompany:false,hasRule:false};
 
       userConfig.ruleList = [];
-      userConfig.ruleType = 1;
+      userConfig.ruleType = 1;//1为管理员
       userConfig.hasRule = true;
       userConfig.hasCompany = true;
       userConfig.company = {

@@ -66,11 +66,16 @@ const conf = {
   },
   getDayRecord:function(e){
     var targetDay = e.currentTarget.dataset.date;
-
-    this.setData({
-      pickedDay:targetDay
+    var pickedRecord = this.userConfig.recordList.filter(function(item){
+      return item.signDate == targetDay;
     })
 
+    var hasPickedDay = pickedRecord.length? true:false;
+    this.setData({
+      hasPickedDay:hasPickedDay,
+      pickedDay:targetDay,
+      pickedDayRecord:hasPickedDay ? pickedRecord[0] :{signInTime:'',signInAddress:'',signOffTime:'',signOffAddress:''}
+    });
   },
   onLoad(options) {
     const date = new Date();
@@ -134,6 +139,12 @@ const conf = {
     var _this = this;
     var hasRecord = true;
 
+    const date = new Date();
+    const cur_year = date.getFullYear();
+    const cur_month = date.getMonth() + 1;
+    const cur_day = date.getDate();
+    const cur_dateDay = this.formatDate(cur_year) +'-'+this.formatDate(cur_month)+'-'+this.formatDate(cur_day);
+
     app.getUserInfo(function(userInfo){
       var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
 
@@ -146,6 +157,13 @@ const conf = {
           if(_this.userConfig.recordList.length === 0){
             hasRecord = false;
           }
+
+          var pickedRecord = _this.userConfig.recordList.filter(function(item){
+            return item.signDate == cur_dateDay;
+          })
+
+          var hasPickedDay = pickedRecord.length? true:false;
+
           _this.setData({
             noRule:2,
             roleType:userConfig.ruleType,
@@ -154,7 +172,9 @@ const conf = {
             signInfo:{
               recordList: _this.userConfig.recordList,
               hasRecord: hasRecord
-            }
+            },
+            hasPickedDay:hasPickedDay,
+            pickedDayRecord:pickedRecord[0]
           })
         }else{
           _this.setData({

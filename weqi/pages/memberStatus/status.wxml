@@ -1,0 +1,44 @@
+<view wx:if="{{approveStatus ==0}}">
+  <view class="status-cell">
+    <view class="active-success-icon">
+      <icon class="icon-box-img" type="waiting" size="80"></icon>
+      <view>你的申请正在等待管理员审核</view>
+    </view>
+
+    <view class="btn-container">
+      <button class="vui_btn vui_btn_plain_default" bindtap="getWildDogData">看看审批有没有通过</button>
+
+      <view class="status-tips" bindtap="cancelApplication">取消申请</view>
+
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{approveStatus ==1}}">
+  <view class="status-cell">
+    <view class="active-success-icon">
+      <icon class="icon-box-img" type="success" size="80"></icon>
+      <view>恭喜，您的申请已经通过</view>
+    </view>
+
+    <view class="btn-container">
+      <button class="vui_btn vui_btn_primary" bindtap="jumpTosign">马上使用</button>
+
+      <view class="status-tips jump-tips"><text class="jump-second">{{second}}</text>秒后自动跳转</view>
+    </view>
+  </view>
+</view>
+
+<view wx:if="{{approveStatus ==2}}">
+  <view class="status-cell">
+    <view class="active-success-icon">
+      <icon class="icon-box-img" type="warn" size="80"></icon>
+      <view> 很遗憾，您的申请未能通过</view>
+    </view>
+
+    <view class="btn-container">
+      <button class="vui_btn vui_btn_primary" bindtap="reapply">重新申请</button>
+      <button class="vui_btn vui_btn_plain_default" bindtap="createCompany">自立门户</button>
+    </view>
+  </view>
+</view>

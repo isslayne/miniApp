@@ -9,16 +9,7 @@ Page({
     icon_contact:config.icon.icon_contact
   },
   onLoad:function(){
-    // wx.redirectTo({
-    //   url:'../logs/logs'
-    // });
-    // wx.redirectTo({
-    //   url:'../activeSignInfo/active'
-    // });
 
-    mapApi = new QQMapWX({
-      key:config.mapKey
-    })
     //验证用户是否添加公司，管理员否，跳转至不同页面
 
 
@@ -36,9 +27,10 @@ Page({
   getSignRule:function(){
 
   },
-  setDetailRule:function(){
+  setDetailRule:function(e){
+    var status = e.currentTarget.dataset.status;
     wx.navigateTo({
-      url:'./detail/detail?id=12368'
+      url:'./detail/detail?status='+status
     })
   }
 });

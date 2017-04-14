@@ -1,0 +1,33 @@
+.btn-container{
+  margin-top:35px;
+  padding:0 15px;
+}
+.btn-container .vui_btn{
+  margin-top:15px;
+}
+.active-success-icon{
+  text-align:center;
+}
+
+.active-btn{
+  margin:10px 15px;
+}
+
+.status-cell{
+  margin:30px 15px;
+}
+
+.icon-box-img{
+  margin-bottom:15px;
+}
+.status-tips{
+  margin:10px 15px;
+  text-align:center;
+  color:#328fee;
+}
+.jump-tips{
+  color:#888;
+}
+.jump-second{
+  color:red;
+}

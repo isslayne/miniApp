@@ -38,6 +38,7 @@
 .now-time{
   color:#328fee;
   font-size:20px;
+  margin-top:5px;
   margin-bottom:20px;
 }
 .now-day{
@@ -49,7 +50,11 @@ color:#fff;
 }
 
 .sign-list{
-  margin:80px 30px 0;
+  /**margin:80px 30px 0;**/
+  margin:80px 0 0;
+  padding:0 30px;
+  box-sizing:border-box;
+  width:100%;
 }
 .sign-list-title{
   margin-bottom:15px;
@@ -128,4 +133,17 @@ color:#fff;
 }
 .location-tips{
   margin-top:45px;
+}
+
+.weekend-tips{
+  margin:10px 15px;
+  color:#888;
+  font-size:12px;
+}
+.weekend-title{
+  margin-top:10px;
+}
+
+.late-title{
+  color:red;
 }

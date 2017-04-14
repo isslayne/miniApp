@@ -3,6 +3,6 @@ var config = require('../../config');
 
 Page({
   data:{
-    QRcode_icon:config.icon.contact
+    QRcode_icon:config.icon.inviteQRcode
   }
 });

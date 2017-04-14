@@ -397,7 +397,7 @@ color:#328fee;
 .list-icon{
   width:23px;
   height:23px;
-  top:1px;
+  top:0px;
   left:-13px;
   position:absolute;
 

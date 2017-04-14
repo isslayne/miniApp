@@ -23,43 +23,44 @@ Page({
           _this.userConfig = userConfig;
 
           var workDayRule = _this.ruleList[0].workDay;
-
-          _this.ruleList.forEach(function(item){
+          var formatRuleList = [];
+          _this.ruleList.forEach(function(item,index){
             var workDayRule = item.workDay;
             var workRule = [];
+            formatRuleList.push(item);
 
             workDayRule.forEach(function(itm,index){
               switch(itm){
                 case 1:
-                  workRule.push('一');
+                  workRule.push('周一');
                   break;
                 case 1:
-                  workRule.push('二');
+                  workRule.push('周二');
                   break;
                 case 3:
-                  workRule.push('三');
+                  workRule.push('周三');
                   break;
                 case 4:
-                  workRule.push('四');
+                  workRule.push('周四');
                   break;
                 case 5:
-                  workRule.push('五');
+                  workRule.push('周五');
                   break;
                 case 6:
-                  workRule.push('六');
+                  workRule.push('周六');
                   break;
-                case 7:
-                  workRule.push('七');
+                case 0:
+                  workRule.push('周日');
                   break;
               }
             });
-            item.workDay = workRule;
+            formatRuleList[index].formatWorkDay = workRule.join('、');
           });
 
 
           _this.setData({
             noRule:false,
-            ruleList:_this.ruleList
+            ruleList:formatRuleList
           });
 
         }else{
@@ -102,7 +103,7 @@ Page({
     })
 
     wx.navigateTo({
-      url:'../setRule/rule'
+      url:'../setRule/rule?ruleId='+id
     })
 
   }

@@ -5,7 +5,20 @@ Page({
   data:{
     icon_setting:config.icon.icon_setting,
     icon_contact:config.icon.icon_contact,
-    icon_add:config.icon.icon_add
+    icon_add:config.icon.icon_add,
+    ruleType:0
+  },
+  onLoad:function(){
+    this.checkUserConfig();
+  },
+  checkUserConfig:function(){
+    var _this = this;
+    app.getUserInfo(function(userInfo){
+      var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+      _this.setData({
+        ruleType:userConfig.ruleType
+      })
+    });
   },
   bindStartTime:function(e){
     this.setData({

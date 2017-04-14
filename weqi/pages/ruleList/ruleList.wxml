@@ -12,7 +12,7 @@
       <view class="form_cell rule-setting-cell" id="{{index}}" bindtap="setDetailRule">
         <view class="form_cell_title_default">
           <view class="ruleList-title">{{item.name}}</view>
-          <view class="ruleList-subTitle"><text>{{item.workDay}}</text><text class="workTime">{{item.workOnTime}}-{{item.workOffTime}}</text></view>
+          <view class="ruleList-subTitle"><text>{{item.formatWorkDay}}</text><text class="workTime">{{item.workOnTime}}-{{item.workOffTime}}</text></view>
         </view>
         <view class="navigator-arrow"></view>
       </view>

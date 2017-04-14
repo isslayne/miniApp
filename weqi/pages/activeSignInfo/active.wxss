@@ -20,6 +20,10 @@
 .active-success-icon{
   text-align:center;
 }
+.active-btn .vui_btn_primary{
+  background-color:#328fee;
+  color:#fff;
+}
 
 .btn-container{
   margin-top:35px;

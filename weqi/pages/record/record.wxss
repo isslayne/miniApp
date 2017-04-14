@@ -127,6 +127,8 @@
 .navigator-arrow{
   position:static;
   flex:0.8;
+  width:15px;
+  height:20px
 }
 .rule-setting-cell{
   padding:10px 0 10px 15px;
@@ -262,4 +264,8 @@ height:40px;
 }
 .record-address{
   color:#888;
+}
+.record-status {
+  color:#888;
+  font-size:12px;
 }

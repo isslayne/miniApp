@@ -98,6 +98,10 @@ page{
     font-size: 17px;
     /*border: 1px solid #1278df;*/
 }
+.vui_btn.vui_btn_primary {
+  background-color: #328fee;
+  color: #fff;
+}
 .vui_btn_primary:not(.vui_btn_disabled):active {
     color: rgba(255, 255, 255, 0.4);
     background-color: #2b7acb;

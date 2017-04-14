@@ -35,13 +35,13 @@
   <view class="sign-detail-item">
     <view class="list-item">
       <image class="list-icon" mode="aspectFit" src="{{signListIcon}}"></image>
-      <view class="record-time">上班：<text class="record-list-time">08:56</text></view>
-      <view class="record-address">打卡地点：<text class="record-list-address">{{item.address}}</text></view>
+      <view class="record-time">上班：<text class="record-list-time">{{pickedDayRecord.signInTime}}</text></view>
+      <view class="record-address">打卡地点：<text class="record-list-address">{{pickedDayRecord.signInAddress}}</text></view>
       </view>
       <view class="list-item">
       <image class="list-icon" mode="aspectFit" src="{{signListIcon}}"></image>
-      <view class="record-time">下班：<text class="record-list-time">20:56</text></view>
-      <view class="record-address">打卡地点：<text class="record-list-address">{{item.address}}</text></view>
+      <view class="record-time">下班：<text class="record-list-time">{{pickedDayRecord.signOffTime}}</text></view>
+      <view class="record-address">打卡地点：<text class="record-list-address">{{pickedDayRecord.signOffAddress}}</text></view>
     </view>
   </view>
 

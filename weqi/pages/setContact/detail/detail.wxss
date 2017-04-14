@@ -74,3 +74,9 @@
 .cancel-btn {
   margin-top:15px;
 }
+.subTitle-agree {
+  color:#36b152;
+}
+.subTitle-refuse {
+  color:#fc3d39;
+}

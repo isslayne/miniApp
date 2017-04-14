@@ -21,29 +21,33 @@ Page({
   checkUserConfig:function(){
     var _this = this;
     var hasRecord = true;
+    var nowDate = this.getNowDate();
 
     app.getUserInfo(function(userInfo){
       var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
 
       if(userConfig.hasRule){
         if(userConfig.ruleList && userConfig.ruleList.length){
-          //已经设置规则，开始定位打卡
+
           _this.ruleList = userConfig.ruleList;
           _this.userConfig = userConfig;
 
-          if(_this.userConfig.recordList.length === 0){
+          if(_this.userConfig.recordList &&_this.userConfig.recordList.length === 0){
             hasRecord = false;
           }
           _this.setData({
             noRule:2,
             roleType:userConfig.ruleType,
             name:app.globalData.userInfo.nickName,
-            company:_this.userConfig.company.name,
-            signInfo:{
-              recordList: _this.userConfig.recordList,
-              hasRecord: hasRecord
-            }
-          })
+            company:_this.userConfig.company.name
+            // signInfo:{
+            //   recordList: _this.userConfig.recordList,
+            //   hasRecord: hasRecord
+            // }
+          });
+
+          _this.renderRecordList(nowDate.split('-')[0],nowDate.split('-')[1]);
+
         }else{
           _this.setData({
             noRule:0,
@@ -119,8 +123,9 @@ Page({
     var recordList = this.userConfig.recordList;
     var pickedList = [];
     var pickedDate = _this.toTenFormat(singleYear)+'-'+_this.toTenFormat(singleMonth);
-    recordList.forEach(function(item){
-      var curItemDateArray =  item.signInTime.split('-');
+
+    recordList && recordList.length && recordList.forEach(function(item){
+      var curItemDateArray =  item.signDate.split('-');
       var curItemDate = curItemDateArray[0]+'-'+curItemDateArray[1];
       if(curItemDate === pickedDate){
         pickedList.push(item);
@@ -135,6 +140,7 @@ Page({
     this.setData({
       date:_this.toTenFormat(singleYear)+'-'+_this.toTenFormat(singleMonth),
       localDate: _this.toTenFormat(singleYear)+'年'+_this.toTenFormat(singleMonth)+'月',
+      recordList:pickedList,
       signInfo:{
         recordList:pickedList,
         hasRecord:hasRecord
@@ -142,7 +148,66 @@ Page({
     });
 
     //筛选对应日期记录
+    this.filterMonthStatus(pickedList);
 
+  },
+  getTypeData:function(e){
+    var type = e.currentTarget.dataset.type;
+    this.filterMonthStatus(this.data.recordList,type);
+  },
+  filterMonthStatus:function(list,type){
+    var curType = type || 'normal';
+    var formatDataList = [];
+
+    var filterList = list.filter(function(item){
+      if(curType == 'normal'){
+        return item.signInStatus ==0 && item.signOffStatus ==0;
+
+      }else if(curType == 'late'){
+
+        return item.signInStatus ==1;
+      } else if (curType == 'early') {
+        return item.signInStatus ==2;
+      } else{
+        filterList =[];
+      }
+
+    });
+
+    filterList.forEach(function(item){
+      if(curType == 'normal'){
+        formatDataList.push({
+          signInTime:item.signInTime,
+          signInStatus:item.signInStatus,
+          signInAddress:item.signInAddress
+        });
+
+      }else if(curType == 'late'){
+        formatDataList.push({
+          signInTime:item.signInTime,
+          signInStatus:item.signInStatus,
+          signInAddress:item.signInAddress
+        });
+      } else if (curType == 'early') {
+        formatDataList.push({
+          signOffTime:item.signInTime,
+          signOffStatus:item.signInStatus,
+          signOffAddress:item.signInAddress
+        });
+      } else{
+        formatDataList =[];
+      }
+    });
+
+
+    var hasRecord = filterList.length? true : false;
+    this.setData({
+      curType:curType,
+      signInfo:{
+        filterRecordList:formatDataList,
+        hasRecord:hasRecord
+      }
+    })
 
   },
   getNowDate:function(){
@@ -155,11 +220,11 @@ Page({
     var nowMinute = date.getMinutes();
     var nowSecond = date.getSeconds();
 
-    var nowTime = {
-      nowTimeDate:_this.toTenFormat(nowYear)+'-'+_this.toTenFormat(nowMonth)+'-'+_this.toTenFormat(nowDay)+' '+_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute),
-      nowTimeS:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond),
-      nowTimeM:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)
-    };
+    // var nowTime = {
+    //   nowTimeDate:_this.toTenFormat(nowYear)+'-'+_this.toTenFormat(nowMonth)+'-'+_this.toTenFormat(nowDay)+' '+_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute),
+    //   nowTimeS:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond),
+    //   nowTimeM:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)
+    // };
 
     var nowDate = _this.toTenFormat(nowYear)+'-'+_this.toTenFormat(nowMonth)
 

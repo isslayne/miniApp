@@ -23,7 +23,7 @@
   -webkit-box-align: center;
   -webkit-align-items: center;
   -ms-flex-align: center;
-  padding:0 15px;
+  padding:0 30rpx;
   background-color:#fff;
 }
 .rule-item{
@@ -69,7 +69,8 @@
   line-height:2.353em;
 }
 .navigator-arrow:after{
-  //top:55%;
+  /**top:55%;**/
+  right:30rpx;
 }
 .rule-address{
   text-align:right;
@@ -115,4 +116,7 @@
 }
 .navigator-arrow{
   position:static;
+}
+.rule-setting-cell.form_cell,.weui-cell.weui-cell_input{
+  padding-left:30rpx;
 }

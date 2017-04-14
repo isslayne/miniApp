@@ -9,7 +9,7 @@
     </block>
     <block wx:else>
 
-      <view class="form_cell rule-setting-cell" bindtap="setDetailRule">
+      <view class="form_cell rule-setting-cell" bindtap="setDetailRule" data-status="1">
         <image class="icon-contact" src="{{icon_contact}}"></image>
         <view class="form_cell_title_default">
           <view class="ruleList-title">王大锤</view>
@@ -17,7 +17,7 @@
         </view>
         <view class="contact-status">已同意</view>
       </view>
-      <view class="form_cell rule-setting-cell" bindtap="setDetailRule">
+      <view class="form_cell rule-setting-cell" bindtap="setDetailRule" data-status="2">
         <image class="icon-contact" src="{{icon_contact}}"></image>
         <view class="form_cell_title_default">
           <view class="ruleList-title">王小二</view>
@@ -25,7 +25,7 @@
         </view>
         <view class="contact-status">已拒绝</view>
       </view>
-      <view class="form_cell rule-setting-cell" bindtap="setDetailRule">
+      <view class="form_cell rule-setting-cell" bindtap="setDetailRule" data-status="0">
         <image class="icon-contact" src="{{icon_contact}}"></image>
         <view class="form_cell_title_default">
           <view class="ruleList-title">王小二</view>

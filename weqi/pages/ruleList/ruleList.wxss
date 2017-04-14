@@ -152,6 +152,8 @@
   align-items:flex-start;
   justify-content:space-between;
   box-sizing:border-box;
+  color:#888;
+  font-size:12px;
 }
 
 .createRule-icon{
@@ -160,4 +162,8 @@
   position:fixed;
   right:20px;
   bottom:30px;
+}
+
+.workTime{
+  margin-left:10px;
 }

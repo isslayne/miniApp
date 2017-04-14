@@ -25,42 +25,57 @@
 
   <view class="record-type-tab">
     <view class ="record-type-column">
-      <view class="record-type-row">
+      <view class="record-type-row" data-type="normal" bindtap="getTypeData">
         <view class="record-type-status record-status-normal">正常</view>
-        <view class="record-type-time">10天</view>
+        <view class="record-type-time">30天</view>
       </view>
-      <view class="record-type-row">
+      <view class="record-type-row" data-type="late" bindtap="getTypeData">
         <view class="record-type-status record-status-late">迟到</view>
-        <view class="record-type-time">10天</view>
+        <view class="record-type-time">0分钟</view>
       </view>
-      <view class="record-type-row">
+      <view class="record-type-row" data-type="early" bindtap="getTypeData">
         <view class="record-type-status record-status-leave">早退</view>
-        <view class="record-type-time">10天</view>
+        <view class="record-type-time">0分钟</view>
       </view>
     </view>
     <view class="record-type-column">
-      <view class="record-type-row">
+      <view class="record-type-row" data-type="absence" bindtap="getTypeData">
         <view class="record-type-status record-status-absence">旷工</view>
-        <view class="record-type-time">10天</view>
+        <view class="record-type-time">0天</view>
       </view>
-      <view class="record-type-row">
+      <view class="record-type-row" data-type="outside" bindtap="getTypeData">
         <view class="record-type-status record-status-outside">外勤</view>
-        <view class="record-type-time">10天</view>
+        <view class="record-type-time">0天</view>
       </view>
-      <view class="record-type-row">
+      <view class="record-type-row" data-type="vacation" bindtap="getTypeData">
         <view class="record-type-status record-status-vacation">休假</view>
-        <view class="record-type-time">10天</view>
+        <view class="record-type-time">0天</view>
       </view>
     </view>
   </view>
 
   <view class="sign-list">
-    <view class="sign-list-title">打卡记录</view>
+    <view class="sign-list-title">
+      <block wx:if="{{curType == 'normal'}}">正常记录</block>
+      <block wx:if="{{curType == 'late'}}">迟到记录</block>
+      <block wx:if="{{curType == 'early'}}">早退记录</block>
+      <block wx:if="{{curType == 'vacation'}}">休假记录</block>
+      <block wx:if="{{curType == 'absence'}}">旷工记录</block>
+      <block wx:if="{{curType == 'outside'}}">外勤记录</block>
+    </view>
     <block wx:if="{{signInfo.hasRecord}}">
-      <block wx:for="{{signInfo.recordList}}" wx:key="{{item.id}}">
+      <block wx:for="{{signInfo.filterRecordList}}" wx:key="{{item.id}}">
         <view class="list-item">
           <view class="record-time">打卡时间：<text class="record-list-time">{{item.signInTime}}</text></view>
-          <view class="record-address">打卡地点：<text class="record-list-address">{{item.address}}</text></view>
+          <view class="record-status">
+            <block wx:if="{{curType == 'normal'}}">正常</block>
+            <block wx:if="{{curType == 'late'}}">迟到</block>
+            <block wx:if="{{curType == 'early'}}">早退</block>
+            <block wx:if="{{curType == 'vacation'}}">休假</block>
+            <block wx:if="{{curType == 'absence'}}">旷工</block>
+            <block wx:if="{{curType == 'outside'}}">外勤</block>
+            <text class="record-list-address">{{item.address}}</text>
+          </view>
         </view>
       </block>
     </block>

@@ -16,13 +16,22 @@ Page({
   onReady:function(){
 
   },
-  onLoad:function(){
+  onLoad:function(option){
+    console.log(option);
+
+    // wx.redirectTo({
+    //   url:'../addMember/member'
+    // });
+
+    if(option.q && option.q.length ){
+      this.inviteCode =decodeURIComponent(option.q);
+    }
     // wx.redirectTo({
     //   url:'../logs/logs'
     // });
-    wx.redirectTo({
-      url:'../addMember/member'
-    });
+    // wx.redirectTo({
+    //   url:'../memberStatus/status'
+    // });
 
     this.animation = wx.createAnimation({
         duration:100
@@ -32,7 +41,7 @@ Page({
       key:config.mapKey
     });
     //验证用户是否添加公司，管理员否，跳转至不同页面
-    this.checkUserConfig();
+    // this.checkUserConfig();
 
     // this.getLocation();
     //
@@ -46,13 +55,19 @@ Page({
     // this.rotateAnimation();
   },
   onShow:function(){
-      // this.checkUserConfig();
+    if(this.inviteCode && (this.inviteCode==config.inviteCode|| this.inviteCode==config.expCode)){
+      wx.redirectTo({
+        url:'../addMember/member'
+      });
+    }else{
+      this.checkUserConfig('switchTab');
+    }
   },
   onPullDownRefresh:function(){
     // this.checkUserConfig();
     wx.stopPullDownRefresh();
   },
-  liveTime:function(time){
+  liveTime:function(type){
     var _this = this;
     var date  = new Date();
     var nowHour = date.getHours();
@@ -77,9 +92,16 @@ Page({
         nowHour =0;
       }
 
-      _this.setData({
-        liveTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
-      })
+      if(type&& type ==2){
+        _this.setData({
+          signTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
+        })
+      } else {
+        _this.setData({
+          liveTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
+        })
+      }
+
     },1000);
 
   },
@@ -95,8 +117,9 @@ Page({
         })
       },100);
   },
-  checkUserConfig:function(){
+  checkUserConfig:function(type){
     var _this = this;
+
     //ruleType:1 普通员工，0 管理员
     // var uid = app.globalData.userInfo? (app.globalData.userInfo.nickName || null) : null;
     // var userConfig = wx.getStorageSync(uid) ||app.getUserInfo(function(){
@@ -106,34 +129,110 @@ Page({
     app.getUserInfo(function(userInfo){
       var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
 
-      if(userConfig.hasRule){
-        if(userConfig.ruleList && userConfig.ruleList.length){
-          //已经设置规则，开始定位打卡
-          _this.ruleList = userConfig.ruleList;
-          _this.userConfig = userConfig;
+      //扫描二维码进来判断
+      if(!userConfig.hasCompany && userConfig.ruleType && userConfig.ruleType ==0){
+        wx.request({
+          url:'http://10.16.33.62/signin?name=layne',
+          success:function(res){
+            console.log(res.data.status);
+            if(res.data.status == 0){
+              var rule = res.data.ruleList;
+              userConfig.ruleList = [];
 
-          //每天第一次打卡
-          _this.getLocation(userConfig.ruleList);
+              userConfig.ruleType = 0;//1为管理员
+              userConfig.hasRule = true;
+              userConfig.hasCompany = true;
+              userConfig.company = res.data.company;
+              userConfig.ruleList = rule;
 
-          _this.setData({
-            noRule:2,
-            roleType:userConfig.ruleType
-          })
-        }else{
-          _this.setData({
-            noRule:0,
-            roleType:userConfig.ruleType
-          })
-        }
-      }else{
-        wx.redirectTo({
-          url:'../activeSignInfo/active'
+              wx.setStorage({
+                key:app.globalData.userInfo.nickName,
+                data:userConfig,
+                success:function(){
+                  _this.getLocation(userConfig.ruleList);
+                }
+              })
+
+            }
+          }
         });
+      }else{
+        _this.getLocalData(userConfig,type);
       }
+
 
     });
 
 
+  },
+  getLocalData:function(userConfig,type){
+    var _this = this;
+    if(userConfig.hasRule){
+      if(userConfig.ruleList && userConfig.ruleList.length){
+        //已经设置规则，开始定位打卡
+        _this.ruleList = userConfig.ruleList;
+        _this.userConfig = userConfig;
+
+        //每天第一次打卡
+        var isNewDay = _this.isNewDay();
+        if(isNewDay){
+            _this.setData({
+              isNewDay:_this.getNowTime().nowDate
+            });
+            // _this.userConfig.isNewDay = _this.getNowTime().nowDate;
+            var isNewDay = _this.getNowTime().nowDate;
+            wx.setStorage({
+              key:app.globalData.userInfo.nickName,
+              data:_this.userConfig
+            });
+              _this.setData({
+                noRule:1,
+              });
+
+            _this.getLocation(userConfig.ruleList,isNewDay);
+
+        }else{
+          var filterRecordList = _this.userConfig.recordList.filter(function(item){
+            return item.signDate == _this.getNowTime().nowDate;
+          });
+
+          // _this.liveTime(2);
+
+          _this.setData({
+            noRule:2,
+            roleType:userConfig.ruleType,
+            signInfo:{
+              // address:address,
+              recordList:filterRecordList[0]
+            }
+          })
+        }
+        // _this.getLocation(userConfig.ruleList,isNewDay);
+
+        // _this.setData({
+        //   noRule:2,
+        //   roleType:userConfig.ruleType
+        // })
+      }else{
+        _this.setData({
+          noRule:0,
+          roleType:userConfig.ruleType
+        })
+      }
+    }else{
+      wx.redirectTo({
+        url:'../activeSignInfo/active'
+      });
+    }
+  },
+  isNewDay:function(){
+    var nowDay = this.getNowTime().nowDate;
+    var isNewDay = this.userConfig.isNewDay;
+    if(isNewDay && nowDay == isNewDay){
+      return false;
+    }else{
+      return true;
+    }
   },
   signIn:function(){
     //打卡判断考勤规则
@@ -162,7 +261,7 @@ Page({
   getSignRule:function(){
 
   },
-  getLocation:function(ruleList){
+  getLocation:function(ruleList,isNewDay){
     //定位
     var _this = this;
     wx.getLocation({
@@ -181,7 +280,7 @@ Page({
           // if(latitude === undefined || longitude === undefined || accuracy === undefined){
           if(latitude === undefined || longitude === undefined){
             //重新定位
-            _this.getLocation(_this.ruleList);
+            _this.getLocation(_this.ruleList,isNewDay);
           }else{
             // getAddress(500);
             //获取具体位置信息, 比较距离
@@ -222,25 +321,43 @@ Page({
                     console.log(res.result.address);
                     // alert(res.result.address);
                     if(Number(_this.distance) <= ruleList[0].signScope){
-                      wx.showToast({
-                        title:'打卡成功',
-                        icon:'success',
+                      //考勤规则判断
+                      var nowWeek = _this.getNowTime().nowWeek;
+
+                      var hasRule = ruleList[0].workDay.some(function(item){
+                         return item ==nowWeek;
                       });
 
-                      // _this.setData({
-                      //   noRule:2,
-                      //   roleType:_this.userConfig.ruleType,
-                      //   signInfo:{
-                      //     address:res.result.address
-                      //   }
-                      // });
-                      //打卡成功，清除实时时间
-                      clearInterval(_this.timer);
-                      //和考勤时间比较，是否迟到
+                      if(hasRule){
+                        wx.showToast({
+                          title:'打卡成功',
+                          icon:'success',
+                        });
 
-                      // 保存打卡数据
-                      _this.saveSignInfo(distance,res.result.address);
+                        // _this.setData({
+                        //   noRule:2,
+                        //   roleType:_this.userConfig.ruleType,
+                        //   signInfo:{
+                        //     address:res.result.address
+                        //   }
+                        // });
+                        //打卡成功，清除实时时间
+                        clearInterval(_this.timer);
+                        //和考勤时间比较，是否迟到
 
+                        // 保存打卡数据
+                        console.log('isNewDay'+isNewDay);
+                        if(isNewDay || (isNewDay&&isNewDay.length)){
+                          _this.saveSignInfo(distance,res.result.address,isNewDay);
+                        } else{
+                          _this.saveSignInfo(distance,res.result.address);
+                        }
+
+                      } else {
+                        _this.setData({
+                          noRule:3
+                        })
+                      }
 
                     }else if(Number(_this.distance) <=1100){
                       //距离远
@@ -248,14 +365,35 @@ Page({
                         title: "打卡失败",
                         content: "差一点就进入考勤范围了，加油哦！",
                         showCancel: true,
-                        confirmText: "重新打卡"
-                      })
+                        confirmText: "重新打卡",
+                        confirmColor:'#328fee',
+                        success:function(res){
+                          console.log(res.confirm);
+                          if(res.confirm){
+                            _this.setData({
+                              noRule:1
+                            });
+                            _this.getLocation(_this.ruleList);
+                          };
+                        }
+                      });
                     }else{
+                      console.log("distance"+_this.distance);
                       wx.showModal({
                         title: "打卡失败",
                         content: "离考勤地点有点远，加把劲",
                         showCancel: true,
-                        confirmText: "重新打卡"
+                        confirmText: "重新打卡",
+                        confirmColor:'#328fee',
+                        success:function(res){
+                          console.log(res.confirm);
+                          if(res.confirm){
+                            _this.setData({
+                              noRule:1
+                            });
+                            _this.getLocation(_this.ruleList);
+                          };
+                        }
                       })
                     }
 
@@ -277,35 +415,94 @@ Page({
       }
     })
   },
-  saveSignInfo:function(distance,address){
+  saveSignInfo:function(distance,address,isNewDay){
     var _this = this;
     var nowDate = this.getNowTime();
     var recordList = this.userConfig.recordList || [];
+    var curDay = nowDate.nowDate;
 
-    recordList.push({
-      signInTime:nowDate.nowTimeDate,
-      signOffTime:nowDate.nowTimeDate,
-      distance:distance,
-      address:address,
-      signStatus:0 //标识迟到早退等状态
-    });
+    var signStatus = 0;//记录迟到早退0，1，2
+
+    var hasNowRecord = recordList.some(function(item){
+      return item.signDate ==curDay;
+    })
+    if(hasNowRecord){
+      recordList.forEach(function(item){
+        if(item.signDate == curDay){
+          item.signOffTime = nowDate.nowTimeDate;
+          item.signOffDistance = distance;
+          item.signOffAddress = address;
+          item.signOffStatus = _this.checkSignStatus('off');
+        }
+      });
+
+      signStatus = _this.checkSignStatus('off');
+      // recordList.push({
+      //   signInTime:nowDate.nowTimeDate,
+      //   signOffTime:nowDate.nowTimeDate,
+      //   distance:distance,
+      //   address:address,
+      //   signStatus:0 //标识迟到早退等状态
+      // });
+    }else{
+      recordList.push({
+        signDate:nowDate.nowDate,
+        signInTime:nowDate.nowTimeDate,
+        signInDistance:distance,
+        signInAddress:address,
+        signInStatus:_this.checkSignStatus('in'),
+        signOffTime:'',
+        signOffDistance:'',
+        signOffAddress:'',
+        signOffStatus:'' //标识迟到早退等状态
+      });
+
+      signStatus = _this.checkSignStatus('in');
+    }
 
     this.userConfig.recordList = recordList;
+    if(isNewDay||(isNewDay&&isNewDay.length)){
+      this.userConfig.isNewDay = isNewDay;
+    }
 
     wx.setStorage({
       key:app.globalData.userInfo.nickName,
       data:_this.userConfig
     });
 
+    var filterRecordList = recordList.filter(function(item){
+      return item.signDate == _this.getNowTime().nowDate;
+    });
     _this.setData({
       noRule:2,
       roleType:_this.userConfig.ruleType,
       signTime:nowDate.nowTimeS,
       signInfo:{
         address:address,
-        recordList:recordList
+        recordList:filterRecordList[0]
+      },
+      curSignTime:nowDate.nowTime,
+      signStatus:signStatus
+    });
+
+    clearInterval(_this.timer);
+
+  },
+  checkSignStatus:function(type){
+    var nowTime = this.getNowTime().nowTimeM;
+    if(type == 'off'){
+      if(nowTime <this.userConfig.ruleList[0].workOffTime){
+        return 2 //早退
+      }else{
+        return 3;
       }
-    })
+    }else if(type == 'in'){
+      if(nowTime >this.userConfig.ruleList[0].workOnTime){
+        return 1//迟到
+      }else{
+        return 0;
+      }
+    }
   },
   getNowTime:function(){
     var _this = this;
@@ -317,10 +514,13 @@ Page({
     var nowMinute = date.getMinutes();
     var nowSecond = date.getSeconds();
 
+
     var nowTime = {
       nowTimeDate:_this.toTenFormat(nowYear)+'-'+_this.toTenFormat(nowMonth)+'-'+_this.toTenFormat(nowDay)+' '+_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute),
       nowTimeS:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond),
-      nowTimeM:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)
+      nowTimeM:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute),
+      nowDate:_this.toTenFormat(nowYear)+'-'+_this.toTenFormat(nowMonth)+'-'+_this.toTenFormat(nowDay),
+      nowWeek:date.getDay()
     };
 
     return nowTime;

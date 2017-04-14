@@ -13,38 +13,73 @@
       </view>
     </block>
     <block wx:elif ="{{noRule ===1}}">
-      <!--<view class="sign-btn" bindtap="signIn">打卡</view>-->
+      <!--<view class="sign-btn">打卡</view>-->
       <view>当前时间</view>
       <view class="now-time">{{liveTime}}</view>
-      <image class="signIn-icon signIn-animation" mode="aspectFit" src="{{signInIcon}}" animation = "{{animation}}" bindtap="rotateAnimation"></image>
+      <image class="signIn-icon signIn-animation" mode="aspectFit" src="{{signInIcon}}" animation = "{{animation}}"></image>
       <text class="location-text">定位中...</text>
       <text class="location-tips">正在为您打卡，请稍等</text>
     </block>
 
     <block wx:elif ="{{noRule ===2}}">
       <!--<view class="sign-btn" bindtap="signIn">打卡</view>-->
-      <view>开始崭新的一天</view>
+
+      <block wx:if="{{signStatus === 1}}">
+        <view class="late-title">迟到了，明天早点</view>
+      </block>
+      <block wx:elif="{{signStatus === 0}}">
+        <view>打起精神，努力工作</view>
+      </block>
+      <block wx:elif="{{signStatus === 3}}">
+        <view>劳累一天，注意休息</view>
+      </block>
+      <block wx:else>
+        <view>开始崭新的一天</view>
+      </block>
       <view class="now-time">{{signTime}}</view>
       <image class="signIn-icon" mode="aspectFit" src="{{signSucIcon}}" bindtap="signIn"></image>
       <text class="signIn-text" bindtap="signIn">打卡</text>
       <!--<text class="sign-address">{{signInfo.address}}</text>-->
+
+      <view class="sign-list">
+        <view class="sign-list-title">打卡记录</view>
+        <view class="list-item">
+          <image class="list-icon" mode="aspectFit" src="{{signListIconSelected}}"></image>
+          <view class="record-time workOnTime">上班时间：<text class="record-list-time">{{signInfo.recordList.signInTime}}</text></view>
+          <view class="record-address">打卡地点：<text class="record-list-address">{{signInfo.recordList.signInAddress}}</text></view>
+        </view>
+
+        <view class="list-item">
+          <image class="list-icon" mode="aspectFit" src="{{signListIcon}}"></image>
+          <view class="record-time">打卡时间：<text class="record-list-time">{{signInfo.recordList.signOffTime}}</text></view>
+          <view class="record-address">打卡地点：<text class="record-list-address">{{signInfo.recordList.signOffAddress}}</text></view>
+        </view>
+
+        <!-- <block wx:for="{{signInfo.recordList}}" wx:key="{{item.id}}">
+          <view class="list-item">
+            <block wx:if="{{index === 0}}">
+              <image class="list-icon" mode="aspectFit" src="{{signListIconSelected}}"></image>
+              <view class="record-time workOnTime">上班时间：<text class="record-list-time">{{item.signInTime}}</text></view>
+            </block>
+            <block wx:else>
+              <image class="list-icon" mode="aspectFit" src="{{signListIcon}}"></image>
+              <view class="record-time">打卡时间：<text class="record-list-time">{{item.signInTime}}</text></view>
+            </block>
+              <view class="record-address">打卡地点：<text class="record-list-address">{{item.address}}</text></view>
+          </view>
+        </block> -->
+      </view>
+
     </block>
 
-    <view class="sign-list">
-      <view class="sign-list-title">打卡记录</view>
-      <block wx:for="{{signInfo.recordList}}" wx:key="{{item.id}}">
-        <view class="list-item">
-          <block wx:if="{{index === 0}}">
-            <image class="list-icon" mode="aspectFit" src="{{signListIconSelected}}"></image>
-            <view class="record-time workOnTime">上班时间：<text class="record-list-time">{{item.signInTime}}</text></view>
-          </block>
-          <block wx:else>
-            <image class="list-icon" mode="aspectFit" src="{{signListIcon}}"></image>
-            <view class="record-time">打卡时间：<text class="record-list-time">{{item.signInTime}}</text></view>
-          </block>
-            <view class="record-address">打卡地点：<text class="record-list-address">{{item.address}}</text></view>
-        </view>
-      </block>
-    </view>
+    <block wx:elif ="{{noRule ===3}}">
+      <!--<view class="sign-btn" bindtap="signIn">打卡</view>-->
+      <view>今天不用上班</view>
+      <view class="weekend-title">好好放松一下吧</view>
+      <view class="weekend-tips">要上班就赶紧打卡吧</view>
+      <image class="signIn-icon" mode="aspectFit" src="{{signSucIcon}}" bindtap="signIn"></image>
+      <text class="signIn-text" bindtap="signIn">打卡</text>
+      <!--<text class="sign-address">{{signInfo.address}}</text>-->
+    </block>
 
 </view>

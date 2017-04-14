@@ -1,10 +1,22 @@
 
 <view class="member-cell">
-  <view>世纪21cn有限责任公司</view>
+  <view>{{companyName}}</view>
   <view class="member-subTitle">请输入验证信息</view>
 </view>
 
+<view class="form-group">
 <view class="form_cell">
   <view class="form_cell_title_default">姓名</view>
-  <input class="form_cell_body" bindinput="inputCompany" placeholder="请输入真实姓名"/>
+  <input class="form_cell_body" bindinput="inputName" placeholder="请输入真实姓名"/>
+</view>
+<view class="form_cell form-info">
+  <view class="form_cell_title_default">备注</view>
+  <input class="form_cell_body" bindinput="inputAddInfo" placeholder="请输入备注信息"/>
+</view>
+</view>
+
+<text class="mamber-tips">输入的内容越准确、详细，越容易通过验证</text>
+
+<view class="submit-btn">
+  <button class="vui_btn vui_btn_primary" type="default" bindtap="submitInfo" disabled="{{btnDisabled}}">下一步</button>
 </view>
