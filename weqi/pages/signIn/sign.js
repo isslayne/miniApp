@@ -60,7 +60,11 @@ Page({
         url:'../addMember/member'
       });
     }else{
-      this.checkUserConfig('switchTab');
+      // this.checkUserConfig('switchTab');
+      // wx.redirectTo({
+      //   url:'../activeSignInfo/active'
+      // });
+      this.queryUserInfo('switchTab');
     }
   },
   onPullDownRefresh:function(){
@@ -118,6 +122,58 @@ Page({
         })
       },100);
   },
+  queryUserInfo:function(type){
+    var _this = this;
+    app.getUserInfo(function(userInfo){
+      var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+    })
+
+
+    wx.request({
+      url:'http://127.0.0.1:3000/queryUser',
+      method:'GET',
+      data:{
+        uid:app.globalData.userInfo.nickName
+      },
+      success:function(res){
+        console.log(JSON.stringify(res));
+        if(res.data.status ===0){
+          _this.checkUser(res.data.member,res.data.company);
+        }else if(res.data.status ===10002){
+          wx.redirectTo({
+            url:'../activeSignInfo/active'
+          });
+        } else{
+
+        }
+      },
+      fail:function(){
+        wx.showToast({
+          title:'网络错误',
+          icon:'success'
+        });
+      }
+    })
+
+  },
+  checkUser:function(user,data){
+    if(data.ruleList && data.ruleList.length){
+      var userConfig = {
+        ruleType : user.roleType,//1为管理员
+        hasRule : true,
+        hasCompany : true,
+        company = data,
+        ruleList : data.ruleList;
+      };
+      _this.getLocalData(userConfig);
+    }else{
+      _this.setData({
+        noRule:0,
+        roleType:user.roleType
+      })
+    }
+  },
+
   checkUserConfig:function(type){
     var _this = this;
 

@@ -27,6 +27,10 @@ var Member = Schema({
        type:Schema.ObjectId,
        ref:'Company'
     },
+    cid:{
+      type:String,
+      default:''
+    },
     recordList:[{
       type:Schema.ObjectId,
       ref:'RecordList'

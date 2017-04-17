@@ -6,7 +6,7 @@ var RuleList = require('../models/ruleList');
 
 router.post('/',function(req,res,next){
   // var name = req.body.name;
-  console.log(req);
+  // console.log(req);
   var ruleList = req.body.rule;
   ruleList.signScope = 1000;
   ruleList.workOnTime ='08:30';
@@ -21,6 +21,7 @@ router.post('/',function(req,res,next){
     roleType:0
   });
 
+  // member.company.push(company);
   member.save(function(err){
     if(err){
       res.json({
@@ -40,6 +41,8 @@ router.post('/',function(req,res,next){
         return
       }
 
+      console.log('member');
+      console.log(member);
       company.member.push(member);
       company.ruleList.push(curRuleList);
       company.save(function(err){
@@ -50,10 +53,25 @@ router.post('/',function(req,res,next){
           });
           return
         }
+        Member.update({
+          _id:member._id
+        },{
+          $addToSet:{company:company._id},
+          cid:company._id
+        },function(err){
+          if(err){
+            res.json({
+              status:10000,
+              msg:'fail'
+            });
+            return
+          }
 
-        res.json({
-          status:0,
-          msg:'success'
+          res.json({
+            status:0,
+            msg:'success'
+          })
+
         })
       });
 

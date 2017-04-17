@@ -77,9 +77,15 @@ Page({
         } else {
           wx.showToast({
             title:res.data.msg,
-            icon:'succcess'
+            icon:'success'
           });
         }
+      },
+      fail:function(){
+        wx.showToast({
+          title:'网络错误',
+          icon:'success'
+        });
       }
     })
   },

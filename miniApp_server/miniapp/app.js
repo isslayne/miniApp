@@ -9,6 +9,7 @@ var index = require('./routes/index');
 var users = require('./routes/users');
 
 var createCompany = require('./routes/createCompany');
+var queryUser = require('./routes/queryUser');
 
 
 
@@ -68,6 +69,7 @@ app.use('/', index);
 app.use('/users', users);
 
 app.use('/createCompany',createCompany);
+app.use('/queryUser',queryUser);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
