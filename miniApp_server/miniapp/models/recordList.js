@@ -40,4 +40,6 @@ var RecordList = new Schema({
   }
 });
 
-module.exports = RecordList;
+// module.exports = RecordList;
+
+module.exports = mongoose.model('RecordList',RecordList);

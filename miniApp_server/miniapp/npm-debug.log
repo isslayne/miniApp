@@ -20,7 +20,7 @@
 9 verbose stack     at maybeClose (internal/child_process.js:818:16)
 9 verbose stack     at Process.ChildProcess._handle.onexit (internal/child_process.js:211:5)
 10 verbose pkgid miniapp@0.0.0
-11 verbose cwd D:\company\miniAPP\miniApp_server\miniapp
+11 verbose cwd D:\company\miniApp_wechat\miniApp\miniApp_server\miniapp
 12 error Windows_NT 10.0.14393
 13 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "start"
 14 error node v4.2.4

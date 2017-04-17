@@ -28,7 +28,8 @@ Page({
         console.log(JSON.stringify(res));
         //把选择的地点和公司名提交到服务器
         // _this.activeSignApp();
-        _this.saveActiveInfo(res);
+        // _this.saveActiveInfo(res);
+        _this.submitActiveInfo(res);
 
         // _this.setData({
         //   isActive:false,
@@ -41,6 +42,44 @@ Page({
             title:'提交错误，请重新选择',
             icon:'success',
           })
+      }
+    })
+  },
+  submitActiveInfo:function(activeData){
+    var _this = this;
+    wx.request({
+      url:'http://127.0.0.1:3000/createCompany',
+      method:'POST',
+      data:{
+        memberName:app.globalData.userInfo.nickName,
+        companyName:_this.data.companyName,
+        rule:{
+          name:activeData.name,
+          address:activeData.address,
+          latitude:activeData.latitude,
+          longitude:activeData.longitude,
+          addressName:activeData.name
+        }
+      },
+      success:function(res){
+        console.log(JSON.stringify(res));
+        if(res.data.status === 0){
+          wx.showToast({
+            title:'保存成功',
+            icon:'success',
+            success:function(){
+              _this.setData({
+                isActive:false,
+                isSuccessActive:true
+              });
+            }
+          });
+        } else {
+          wx.showToast({
+            title:res.data.msg,
+            icon:'succcess'
+          });
+        }
       }
     })
   },

@@ -8,8 +8,14 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 
+var createCompany = require('./routes/createCompany');
+
+
+
 var mongoose = require('mongoose');
-var config = require('./models/config');
+// var config = require('./models/config');
+
+var RuleList = require('./models/ruleList');
 
 var app = express();
 
@@ -23,7 +29,7 @@ db.connection.on('open', function(){
   console.log("数据库连接成功");
 });
 
-config.init();
+// config.init();
 
 var ruleInfo = {
   name:'test',
@@ -36,15 +42,15 @@ var ruleInfo = {
   workOffTime:'17:30',
   workDay:'1,2,3,4,5'
 };
-var RuleList = db.model('RuleList');
+// var RuleList = mongoose.model('RuleList');
 var ruleList = new RuleList(ruleInfo);
-ruleList.save(function(err){
-  if(err){
-    console.log(err);
-    return
-  }
-  console.log('插入数据成功')
-});
+// ruleList.save(function(err){
+//   if(err){
+//     console.log(err);
+//     return
+//   }
+//   console.log('插入数据成功')
+// });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -60,6 +66,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
 app.use('/users', users);
+
+app.use('/createCompany',createCompany);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

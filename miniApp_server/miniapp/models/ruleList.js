@@ -38,4 +38,5 @@ var RuleList = new Schema({
   }
 });
 
-module.exports = RuleList;
+// module.exports = RuleList;
+module.exports = mongoose.model('RuleList', RuleList);

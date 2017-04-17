@@ -33,4 +33,5 @@ var Member = Schema({
     }]
 });
 
-module.exports = Member;
+// module.exports = Member;
+module.exports = mongoose.model('Member', Member);

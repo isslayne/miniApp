@@ -20,6 +20,6 @@ var Company = new Schema({
   }]
 });
 
-module.exports = Company;
+// module.exports = Company;
 
-// mongoose.model('Company',Company);
+module.exports = mongoose.model('Company',Company);
