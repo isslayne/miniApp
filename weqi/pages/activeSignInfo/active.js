@@ -47,7 +47,7 @@ Page({
   saveActiveInfo:function(signData){
     var _this = this;
     var rule = {
-      name:signData.name,
+      name:signData.name.length?signData.name : signData.address,
       address:signData.address,
       latitude:signData.latitude,
       longitude:signData.longitude,
@@ -126,8 +126,8 @@ Page({
     });
   },
   shareQRcode:function(){
-    wx.redirectTo({
-      URL:'../QRCode/QRCode'
+    wx.navigateTo({
+      url:'../QRCode/QRCode'
     })
   }
 });

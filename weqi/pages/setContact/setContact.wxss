@@ -31,9 +31,15 @@
   color:#888;
 }
 
-.form_cell{
+.form_cell:first-child{
   margin-top:20px;
   display:block;
+}
+.form_cell{
+  display:block;
+  border:0;
+  border-bottom:1px solid #e5e5e5;
+  line-height:1.5;
 }
 .form_cell.rule-setting-cell{
   height:auto;
@@ -106,11 +112,11 @@
 }
 
 .form_cell_title_default{
-  margin-left:35px;
+  margin-left:120rpx;
 
 }
 .ruleList-subTitle {
-  padding-right:65px;
+  padding-right:180rpx;
   text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
@@ -132,6 +138,8 @@
   top:50%;
   margin-top:-18rpx;
   right:28rpx;
+  font-size:28rpx;
+  color:#b2b2b2;
 }
 
 .contact-cell {
@@ -140,9 +148,11 @@
 }
 .icon-contact {
   position:absolute;
-  left:5px;
-  width:40px;
-  height:40px;
+  left:15px;
+  top:50%;
+  margin-top:-50rpx;
+  width:100rpx;
+  height:100rpx;
 }
 
 .status-submit{
@@ -151,4 +161,20 @@
   padding:5px 10px;
   color:#fff;
   margin-top:-28rpx;
+}
+
+.invite-icon{
+  height:44rpx;
+  width:44rpx;
+  margin-right:20rpx;
+  margin-bottom:-10rpx;
+}
+.invite-text{
+  font-size:32rpx;
+  color:#328fee;
+}
+.invite-cell{
+  text-align:right;
+  margin:30rpx;
+  vertical-align:middle;
 }

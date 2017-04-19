@@ -1,6 +1,6 @@
 <view class="form_cell">
   <view class="form_cell_title_default">规则名称</view>
-  <input class="form_cell_body" value="{{name}}" bindinput="inputCompany" placeholder="请输入规则名称"/>
+  <input class="form_cell_body" value="{{name}}" bindinput="inputCompanyName" placeholder="请输入规则名称"/>
 </view>
 
 <view class="rule-list">
@@ -62,10 +62,26 @@
           </view>
     </view>
 
+    <view class="weui-cells weui-cells_after-title">
+          <view class="weui-cell weui-cell_input">
+            <view class="weui-cell__hd">
+              <view class="weui-label">考勤范围</view>
+            </view>
+            <view class="weui-cell__bd">
+              <picker value="{{index}}"  bindchange="bindDistance" range="{{distance}}">
+                <view class="weui-input">{{pickedDistance}}</view>
+              </picker>
+            </view>
+            <view class="navigator-arrow"></view>
+          </view>
+    </view>
+
 
 </view>
 
 <view class="active-btn">
   <button class="vui_btn vui_btn_primary" type="default" bindtap="saveRule" disabled="{{btnDisabled}}">保存</button>
-  <!--<button class="vui_btn vui_btn_plain_default cancel-btn" type="default" bindtap="chooseLocation" disabled="{{btnDisabled}}">取消</button>-->
+  <block wx:if="{{showDelBtn}}">
+    <button class="vui_btn vui_btn_plain_default cancel-btn" type="default" bindtap="deleteRule" >删除</button>
+  </block>
 </view>

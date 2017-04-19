@@ -1,3 +1,7 @@
 <view class="container QRCode-wrap">
-  <image class="QRcode-icon" mode="aspectFit" src="{{QRcode_icon}}"></image>
+  <view class="QRcode-bg">
+    <image class="QRcode-icon" mode="aspectFit" src="{{QRcode_icon}}"></image>
+    <view class="qrcode-tip tip-title">成员使用微信扫描上方二维码</view>
+    <view class="qrcode-tip">即可使用移动考勤</view>
+  </view>
 </view>

@@ -18,12 +18,19 @@
 }
 
 .form_cell{
-  margin-top:20px;
   flex-direction:column;
   webkit-box-align:flex-start;
   -webkit-align-items:flex-start;
   -ms-flex-align:flex-start;
   align-items:flex-start;
+  line-height:1.5;
+  height:auto;
+  border:0;
+  border-bottom:1px solid #e5e5e5;
+}
+
+.form_cell:first-child{
+  border-top:1px solid #e5e5e5;
 }
 
 .rule-list{
@@ -144,21 +151,21 @@
   align-items:flex-start;
   justify-content:space-between;
   box-sizing:border-box;
-
 }
 .ruleList-subTitle {
-  display:flex;
+  display:block;
   flex-direction:row;
   align-items:flex-start;
   justify-content:space-between;
   box-sizing:border-box;
   color:#888;
-  font-size:12px;
+  font-size:28rpx;
+  padding-right:150rpx;
 }
 
 .createRule-icon{
-  width:80px;
-  height:80px;
+  width:120rpx;
+  height:120rpx;
   position:fixed;
   right:20px;
   bottom:30px;
@@ -166,4 +173,23 @@
 
 .workTime{
   margin-left:10px;
+}
+
+.ruleList-title{
+  font-size:34rpx;
+}
+
+.rule-status{
+  position:absolute;
+  top:50%;
+  margin-top:-18rpx;
+  right:28rpx;
+  font-size:26rpx;
+  color:#888;
+}
+.rule-status.status-submit{
+  padding:5px 10px;
+  color:#fff;
+  background-color:#328fee;
+  border-radius:2px;
 }

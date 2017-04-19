@@ -1,11 +1,15 @@
 @import "../../lib/weui.wxss"
 
 .active-btn{
-  margin:10px 15px;
+  margin:60rpx 30rpx;
+
 }
 
 .form_cell{
   margin-top:20px;
+  font-size:34rpx;
+  line-height:2.5;
+  height:auto;
 }
 
 .rule-list{
@@ -17,7 +21,7 @@
   display: -webkit-flex;
   display: -ms-flexbox;
   display:flex;
-  height:40px;
+  /*height:40px;*/
   flex-direction:row;
   align-items:center;
   -webkit-box-align: center;
@@ -25,6 +29,8 @@
   -ms-flex-align: center;
   padding:0 15px;
   background-color:#fff;
+  font-size:34rpx;
+  line-height:2.5;
 }
 .rule-item{
   -webkit-box-flex: 1;
@@ -41,12 +47,14 @@
   /*margin-left:15px;*/
 }
 .rule-item-text{
-  width:26px;
-  height:26px;
+  width:60rpx;
+  height:60rpx;
   border-radius: 50%;
-  line-height:26px;
+  line-height:2.2;
   text-align:center;
-  border:1px solid #888;
+  font-size:28rpx;
+  color:#888;
+  border:1px solid #e5e5e5;
 }
 
 .active .rule-item-text{
@@ -83,4 +91,5 @@
 }
 .vui_btn_plain_default {
   border-color:#dfdfdf;
+  color:#f00;
 }

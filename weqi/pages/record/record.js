@@ -3,7 +3,7 @@ var config = require('../../config');
 
 Page({
   data:{
-    icon_contact:config.icon.icon_contact,
+    icon_contact:config.icon.avatar,
     date:'2017-03-30'
   },
   onLoad:function(){
@@ -156,23 +156,37 @@ Page({
     this.filterMonthStatus(this.data.recordList,type);
   },
   filterMonthStatus:function(list,type){
-    var curType = type || 'normal';
+    var curType = type || 'late';
     var formatDataList = [];
 
-    var filterList = list.filter(function(item){
-      if(curType == 'normal'){
-        return item.signInStatus ==0 && item.signOffStatus ==0;
-
-      }else if(curType == 'late'){
-
-        return item.signInStatus ==1;
-      } else if (curType == 'early') {
-        return item.signInStatus ==2;
-      } else{
-        filterList =[];
+    if(!type){
+      var filterList = this.filterList(list,1);
+      if(!filterList.length){
+        filterList = this.filterList(list,2);
+        if(!filterList.length){
+          this.setData({
+              hasRecord:false
+          })
+        }
       }
+    }else{
+      filterList = list.filter(function(item){
+        if(curType == 'normal'){
+          return item.signInStatus ==0 && item.signOffStatus ==0;
 
-    });
+        }else if(curType == 'late'){
+
+          return item.signInStatus ==1;
+        } else if (curType == 'early') {
+          return item.signInStatus ==2;
+        } else{
+          filterList =[];
+        }
+
+      });
+    }
+
+
 
     filterList.forEach(function(item){
       if(curType == 'normal'){
@@ -209,6 +223,12 @@ Page({
       }
     })
 
+  },
+  filterList:function(list,type){
+    var pickedList = list.filter(function(item){
+      return item.signInStatus == type;
+    });
+    return pickedList;
   },
   getNowDate:function(){
     var _this = this;

@@ -8,7 +8,10 @@
       </view>
     </block>
     <block wx:else>
-
+      <view class="invite-cell" bindtap="inviteUser">
+        <image class="invite-icon"  mode="aspectFit" src="{{icon_invite}}"></image>
+        <text class="invite-text">邀请成员</text>
+      </view>
       <view class="form_cell rule-setting-cell" bindtap="setDetailRule" data-status="1">
         <image class="icon-contact" src="{{icon_contact}}"></image>
         <view class="form_cell_title_default">
@@ -31,7 +34,7 @@
           <view class="ruleList-title">王小二</view>
           <view class="ruleList-subTitle"><text>测试测试测试测试测试测试测试测试测试测试测试测试测试测试测试</text></view>
         </view>
-        <view class="contact-status status-submit" bindtap="approveContact">同意</view>
+        <view class="contact-status status-submit" catchtap="approveContact">同意</view>
       </view>
     </block>
 

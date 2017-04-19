@@ -7,6 +7,9 @@ Page({
     addIcon:config.icon.addIcon
   },
   onLoad:function(){
+
+  },
+  onShow:function(){
     this.checkUserConfig();
   },
   checkUserConfig:function(){
@@ -16,11 +19,11 @@ Page({
       var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
 
       _this.userKey = app.globalData.userInfo.nickName;
+      _this.ruleList = userConfig.ruleList;
+      _this.userConfig = userConfig;
+
       if(userConfig.hasRule){
         if(userConfig.ruleList && userConfig.ruleList.length){
-
-          _this.ruleList = userConfig.ruleList;
-          _this.userConfig = userConfig;
 
           var workDayRule = _this.ruleList[0].workDay;
           var formatRuleList = [];
@@ -34,7 +37,7 @@ Page({
                 case 1:
                   workRule.push('周一');
                   break;
-                case 1:
+                case 2:
                   workRule.push('周二');
                   break;
                 case 3:
@@ -57,6 +60,10 @@ Page({
             formatRuleList[index].formatWorkDay = workRule.join('、');
           });
 
+          if(_this.ruleList.length ===1){
+            _this.ruleList[0].status = true;
+            formatRuleList[0].status = true;
+          }
 
           _this.setData({
             noRule:false,
@@ -78,6 +85,42 @@ Page({
 
     });
 
+
+  },
+  enableRule:function(e){
+    var _this = this;
+    var formatRuleList = this.data.ruleList;
+    _this.userConfig.ruleList.forEach(function(item,index){
+      if(index == e.currentTarget.id){
+          _this.userConfig.ruleList[index].status = true;
+      }else{
+          _this.userConfig.ruleList[index].status = false;
+      }
+    });
+
+    formatRuleList.forEach(function(item,index){
+      if(index == e.currentTarget.id){
+          formatRuleList[index].status = true;
+      }else{
+          formatRuleList[index].status = false;
+      }
+    });
+
+    wx.setStorage({
+      key:_this.userKey,
+      data:_this.userConfig,
+      success:function(){
+        wx.showToast({
+          title:'已启用',
+          icon:'success'
+        });
+      }
+    })
+
+
+    this.setData({
+      ruleList:formatRuleList
+    });
 
   },
   createRule:function(){

@@ -31,6 +31,7 @@
 
 
 <view class="sign-list">
+<block wx:if="{{hasPickedDay}}">
   <view class="sign-list-title">打卡记录</view>
   <view class="sign-detail-item">
     <view class="list-item">
@@ -44,5 +45,9 @@
       <view class="record-address">打卡地点：<text class="record-list-address">{{pickedDayRecord.signOffAddress}}</text></view>
     </view>
   </view>
+</block>
+<block wx:else>
+    <view class="list-item noRecord">暂无考勤记录</view>
+</block>
 
 </view>

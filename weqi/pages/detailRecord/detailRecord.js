@@ -3,7 +3,7 @@ var config = require('../../config');
 
 const conf = {
   data: {
-    icon_contact:config.icon.icon_contact,
+    icon_contact:config.icon.avatar,
     signListIcon:config.icon.signListIcon,
     hasEmptyGrid: false,
     pickedDay:''
@@ -66,9 +66,25 @@ const conf = {
   },
   getDayRecord:function(e){
     var targetDay = e.currentTarget.dataset.date;
+    var nowDate = this.getNowDate();
     var pickedRecord = this.userConfig.recordList.filter(function(item){
       return item.signDate == targetDay;
-    })
+    });
+
+    var hasPickedDay = pickedRecord.length? true:false;
+    if(targetDay <= nowDate){
+      this.setData({
+        hasPickedDay:hasPickedDay,
+        pickedDay:targetDay,
+        pickedDayRecord:hasPickedDay ? pickedRecord[0] :{signInTime:'',signInAddress:'',signOffTime:'',signOffAddress:''}
+      });
+    }
+
+  },
+  getFirstDayRecord:function(targetDay){
+    var pickedRecord = this.userConfig.recordList.filter(function(item){
+      return item.signDate == targetDay;
+    });
 
     var hasPickedDay = pickedRecord.length? true:false;
     this.setData({
@@ -76,6 +92,7 @@ const conf = {
       pickedDay:targetDay,
       pickedDayRecord:hasPickedDay ? pickedRecord[0] :{signInTime:'',signInAddress:'',signOffTime:'',signOffAddress:''}
     });
+
   },
   onLoad(options) {
     const date = new Date();
@@ -99,6 +116,9 @@ const conf = {
     })
   },
   handleCalendar(e) {
+    var _this = this;
+    var nowMonth = this.getNowDate('month');
+
     const handle = e.currentTarget.dataset.handle;
     const cur_year = this.data.cur_year;
     const cur_month = this.data.cur_month;
@@ -114,25 +134,49 @@ const conf = {
       this.calculateEmptyGrids(newYear, newMonth);
 
       this.setData({
+        pickedDay:_this.toTenFormat(newYear)+'-'+_this.toTenFormat(newMonth)+'-01',
         cur_year: newYear,
         cur_month: newMonth
       })
+      this.getFirstDayRecord(_this.toTenFormat(newYear)+'-'+_this.toTenFormat(newMonth)+'-01');
 
     } else {
       let newMonth = cur_month + 1;
       let newYear = cur_year;
+      var pickedMonth = this.toTenFormat(newYear)+'-'+this.toTenFormat(newMonth);
       if (newMonth > 12) {
         newYear = cur_year + 1;
         newMonth = 1;
       }
+      if(pickedMonth<nowMonth){
+        this.calculateDays(newYear, newMonth);
+        this.calculateEmptyGrids(newYear, newMonth);
 
-      this.calculateDays(newYear, newMonth);
-      this.calculateEmptyGrids(newYear, newMonth);
+        console.log(_this.toTenFormat(newYear)+'-'+_this.toTenFormat(newMonth)+'-01');
+        this.setData({
+          pickedDay:_this.toTenFormat(newYear)+'-'+_this.toTenFormat(newMonth)+'-01',
+          cur_year: newYear,
+          cur_month: newMonth
+        });
+        this.getFirstDayRecord(_this.toTenFormat(newYear)+'-'+_this.toTenFormat(newMonth)+'-01');
+      }else if(pickedMonth==nowMonth){
+        this.calculateDays(newYear, newMonth);
+        this.calculateEmptyGrids(newYear, newMonth);
 
-      this.setData({
-        cur_year: newYear,
-        cur_month: newMonth
-      })
+        console.log()
+        this.setData({
+          pickedDay:_this.getNowDate(),
+          cur_year: newYear,
+          cur_month: newMonth
+        });
+        this.getFirstDayRecord(_this.getNowDate());
+      }else{
+        wx.showToast({
+          title: '暂无考勤记录',
+          image: ''
+        });
+      }
+
     }
   },
   checkUserConfig:function(){
@@ -194,6 +238,21 @@ const conf = {
     wx.navigateBack({
       delta:1
     })
+  },
+  getNowDate:function(type){
+    var _this = this;
+    var date  = new Date();
+    var nowYear = date.getFullYear();
+    var nowMonth = date.getMonth()+1;
+    var nowDay = date.getDate();
+
+    var nowDate = type ? _this.toTenFormat(nowYear)+'-'+_this.toTenFormat(nowMonth) : _this.toTenFormat(nowYear)+'-'+_this.toTenFormat(nowMonth)+'-'+_this.toTenFormat(nowDay);
+
+    return nowDate;
+  },
+  toTenFormat:function(number){
+    number = Number(number) < 10 ? "0"+Number(number) : Number(number);
+    return number;
   },
   onShareAppMessage() {
     return {

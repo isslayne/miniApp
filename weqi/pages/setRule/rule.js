@@ -1,8 +1,10 @@
 var app = getApp();
 Page({
   data:{
+    btnDisabled:true,
     startTime:"08:30",
     endTime:"17:30",
+    distance:['200米','500米','700米','1000米','1200米','1500米'],
     list:[{
       id:1,
       name:'一',
@@ -37,11 +39,14 @@ Page({
   onLoad:function(option){
     if(option.ruleId){
       this.ruleId = option.ruleId;
+      this.checkUserConfig(this.ruleId);
+    }else{
+      this.checkUserConfig();
     }
 
-    this.checkUserConfig();
+
   },
-  checkUserConfig:function(){
+  checkUserConfig:function(ruleId){
     var _this = this;
 
     app.getUserInfo(function(userInfo){
@@ -50,7 +55,7 @@ Page({
 
       _this.userKey = app.globalData.userInfo.nickName;
 
-      if(userConfig.currentRule){
+      if(userConfig.currentRule && ruleId !=null){
         var curRuleList = [];
         var curweekList = [{
           id:1,
@@ -92,12 +97,22 @@ Page({
         });
 
         _this.setData({
+          showDelBtn:true,
+          btnDisabled:false,
           list:curweekList,
           currentRule:curRuleList,
+          latitude:userConfig.currentRule.latitude,
+          longitude:userConfig.currentRule.longitude,
           startTime:userConfig.currentRule.workOnTime,
           endTime:userConfig.currentRule.workOffTime,
           address:userConfig.currentRule.addressName,
-          name:userConfig.currentRule.addressName
+          addressName:userConfig.currentRule.addressName,
+          name:userConfig.currentRule.name,
+          pickedDistance:userConfig.currentRule.signScope+'米'
+        });
+      }else{
+        _this.setData({
+          pickedDistance:'500米'
         })
       }
     });
@@ -112,6 +127,28 @@ Page({
       endTime: e.detail.value
     })
   },
+  bindDistance:function(e){
+    var _this = this;
+    var filterList = this.data.list.filter(function(item){
+      return item.selected === true;
+    });
+
+    this.setData({
+      index:e.detail.value,
+      pickedDistance: _this.data.distance[e.detail.value]
+    });
+
+    if(this.data.name && this.data.name.length && filterList.length && this.data.pickedDistance && this.data.pickedDistance.length){
+      this.setData({
+        btnDisabled:false
+      })
+    }else {
+      this.setData({
+        btnDisabled:true
+      })
+    }
+
+  },
   chooseLocation: function () {
     // this.mapCtx.moveToLocation()
     var _this = this;
@@ -123,7 +160,7 @@ Page({
         _this.setData({
           isActive:false,
           isSuccessActive:true,
-          address:res.name,
+          address:res.name.length ? res.name : res.address,
           addressName:res.address,
           latitude:res.latitude,
           longitude:res.longitude,
@@ -132,6 +169,24 @@ Page({
       fail:function(){
 
       }
+    })
+  },
+  inputCompanyName:function(e){
+    var filterList = this.data.list.filter(function(item){
+      return item.selected === true;
+    });
+
+    if(e.detail.value.trim().length && filterList.length && this.data.pickedDistance && this.data.pickedDistance.length){
+      this.setData({
+        btnDisabled:false
+      })
+    }else {
+      this.setData({
+        btnDisabled:true
+      })
+    }
+    this.setData({
+      name:e.detail.value.trim()
     })
   },
   saveRule:function(){
@@ -146,7 +201,7 @@ Page({
 
     pickedRule = {
       address:_this.data.address,
-      addressName:_this.data.name,
+      addressName:_this.data.addressName,
       latitude:_this.data.latitude,
       longitude:_this.data.longitude,
       name:_this.data.name,
@@ -155,12 +210,14 @@ Page({
       workDay:pickedWeekDay
     }
 
-    if(this.userConfig.currentRule){
-      pickedRule.signScope = this.userConfig.currentRule.signScope;
+    if(this.userConfig.currentRule &&   this.ruleId !=null){
+      // pickedRule.signScope = this.userConfig.currentRule.signScope;
+      pickedRule.signScope = this.data.pickedDistance.split('米')[0];
       this.userConfig.currentRule = pickedRule;
       this.userConfig.ruleList[_this.ruleId] = pickedRule;
     } else{
-        pickedRule.signScope =1000;
+        pickedRule.status = false;
+        pickedRule.signScope = this.data.pickedDistance.split('米')[0];
         this.userConfig.ruleList.push(pickedRule);
     }
     wx.setStorage({
@@ -181,6 +238,47 @@ Page({
       }
     });
   },
+  deleteRule:function(){
+    var _this = this;
+
+      wx.showModal({
+        title: "确定要删除吗？",
+        content: "删除后将无法恢复",
+        showCancel: true,
+        cancelText:'再想想',
+        cancelColor:'#000',
+        confirmText: "删除",
+        confirmColor:'#f00',
+        success:function(res){
+          if(res.confirm){
+            _this.userConfig.currentRule = null;
+            _this.userConfig.ruleList.splice(this.ruleId,1);
+            if(!_this.userConfig.ruleList.length){
+                _this.userConfig.hasRule =false;
+            }
+
+            wx.setStorage({
+              key:_this.userKey,
+              data:_this.userConfig,
+              success:function(){
+                wx.showToast({
+                  icon:'success',
+                  title:'删除成功',
+                  success:function(){
+                    setTimeout(function(){
+                      wx.navigateBack({
+                        delta:1
+                      });
+                    },1500);
+                  }
+                });
+              }
+            });
+          }
+        }
+      })
+
+  },
   toggleDay:function(e){
     var id = e.currentTarget.id;
     var list = this.data.list;
@@ -189,8 +287,24 @@ Page({
         list[i].selected = !list[i].selected;
       }
     }
+
+    var filterList = list.filter(function(item){
+      return item.selected === true;
+    });
+
+    if(this.data.name && this.data.name.length && filterList.length && this.data.pickedDistance && this.data.pickedDistance.length){
+      this.setData({
+        btnDisabled:false
+      })
+    }else {
+      this.setData({
+        btnDisabled:true
+      })
+    }
+
     this.setData({
       list:list
     });
+
   }
 })

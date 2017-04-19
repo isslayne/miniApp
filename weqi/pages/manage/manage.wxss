@@ -97,8 +97,8 @@
 }
 
 .icon-contact,.icon-setting,.icon-add {
-    width:20px;
-    height:20px;
+    width:22px;
+    height:22px;
     margin-right:10px;
 }
 .form_cell_title_default,.rule-item-title,.weui-label{

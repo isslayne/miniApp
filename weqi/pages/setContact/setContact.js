@@ -6,7 +6,8 @@ Page({
   data:{
     title:'打卡',
     signInfo:{},
-    icon_contact:config.icon.icon_contact
+    icon_contact:config.icon.avatar,
+    icon_invite:config.icon.icon_invite
   },
   onLoad:function(){
 
@@ -31,6 +32,24 @@ Page({
     var status = e.currentTarget.dataset.status;
     wx.navigateTo({
       url:'./detail/detail?status='+status
+    })
+  },
+  inviteUser:function(){
+    wx.navigateTo({
+      url:'../QRCode/QRCode'
+    })
+  },
+  approveContact:function(){
+    wx.showToast({
+      title:'已同意',
+      icon:'success',
+      success:function(){
+        // setTimeout(function(){
+        //   wx.navigateBack({
+        //     delta: 1
+        //   })
+        // },2000)
+      }
     })
   }
 });

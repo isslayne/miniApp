@@ -75,7 +75,8 @@ Page({
     var nowSecond = date.getSeconds();
 
     _this.setData({
-      liveTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
+      liveTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond),
+      signTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
     });
 
     this.timer = setInterval(function(){
@@ -196,7 +197,7 @@ Page({
             return item.signDate == _this.getNowTime().nowDate;
           });
 
-          // _this.liveTime(2);
+          _this.liveTime(2);
 
           _this.setData({
             noRule:2,
@@ -342,7 +343,8 @@ Page({
                         //   }
                         // });
                         //打卡成功，清除实时时间
-                        clearInterval(_this.timer);
+                        // clearInterval(_this.timer);
+
                         //和考勤时间比较，是否迟到
 
                         // 保存打卡数据
@@ -374,6 +376,10 @@ Page({
                               noRule:1
                             });
                             _this.getLocation(_this.ruleList);
+                          }else if(res.cancel){
+                            _this.setData({
+                              noRule:2
+                            });
                           };
                         }
                       });
@@ -392,6 +398,10 @@ Page({
                               noRule:1
                             });
                             _this.getLocation(_this.ruleList);
+                          }else if(res.cancel){
+                            _this.setData({
+                              noRule:2
+                            });
                           };
                         }
                       })
@@ -476,7 +486,7 @@ Page({
     _this.setData({
       noRule:2,
       roleType:_this.userConfig.ruleType,
-      signTime:nowDate.nowTimeS,
+      // signTime:nowDate.nowTimeS,
       signInfo:{
         address:address,
         recordList:filterRecordList[0]
@@ -485,7 +495,7 @@ Page({
       signStatus:signStatus
     });
 
-    clearInterval(_this.timer);
+    // clearInterval(_this.timer);
 
   },
   checkSignStatus:function(type){

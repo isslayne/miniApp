@@ -8,14 +8,16 @@
 
 }
 .step-icon{
-  margin:0 10px;
+  margin:0 56rpx;
 }
 .guide-step.active{
   color:#328fee;
 }
-
+.active-color{
+  color:#888;
+}
 .active-btn{
-  margin:10px 15px;
+  margin:60rpx 15px;
 }
 .active-success-icon{
   text-align:center;
@@ -45,4 +47,8 @@ button[disabled][type="default"], wx-button[disabled]:not([type]) {
 button[disabled][type="default"]:active, wx-button[disabled]:not([type]):active {
   background-color:#a3c9f2;
   color:#cce1f7;
+}
+.vui_btn_plain_default{
+  background-color:#f8f8f8;
+  border:2rpx solid #e5e5e5;
 }

@@ -11,7 +11,6 @@
 }
 
 .form_cell{
-  margin-top:20px;
   flex-direction:column;
   webkit-box-align:flex-start;
   -webkit-align-items:flex-start;
@@ -58,7 +57,7 @@
   border-radius: 50%;
   line-height:26px;
   text-align:center;
-  border:1px solid #888;
+  border:1rpx solid #888;
 }
 
 .active .rule-item-text{
@@ -141,8 +140,11 @@
   align-items:flex-start;
   justify-content:space-between;
   box-sizing:border-box;
-  margin-left:35px;
+  margin-left:100rpx;
 
+}
+.ruleList-title{
+  font-size:34rpx;
 }
 .ruleList-subTitle {
   display:flex;
@@ -151,6 +153,7 @@
   justify-content:space-between;
   box-sizing:border-box;
   color:#888;
+  font-size:28rpx;
 }
 
 .createRule-icon{
@@ -163,10 +166,11 @@
 
 .contact-status {
 position:absolute;
-top:50%;
-margin-top:-8rpx;
+top:10px;
+/*margin-top:-8rpx;*/
 right:28rpx;
 color:#328fee;
+font-size:28rpx;
 }
 
 .contact-cell {
@@ -176,12 +180,14 @@ color:#328fee;
 .icon-contact {
 position:absolute;
 left:5px;
-width:40px;
-height:40px;
+width:100rpx;
+height:100rpx;
 }
 
 .weui-input {
   text-align:center;
+  font-size:32rpx;
+  line-height:3;
 }
 
 .navigator-arrow-left:after{
@@ -197,7 +203,7 @@ height:40px;
   display:flex;
   flex-direction:column;
   background-color:#fff;
-  border-top:1px solid #e5e5e5;
+  border-top:1rpx solid #e5e5e5;
 }
 .record-type-row {
   display:flex;
@@ -205,8 +211,8 @@ height:40px;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  border-right:1px solid #e5e5e5;
-  border-bottom:1px solid #e5e5e5;
+  border-right:1rpx solid #e5e5e5;
+  border-bottom:1rpx solid #e5e5e5;
   box-sizing:border-box;
   padding:15px 10px
 }
@@ -253,14 +259,21 @@ height:40px;
 .sign-list-title{
   margin:10px 15px;
   color:#888;
+  font-size:28rpx;
 }
 
 .list-item{
   position:relative;
   padding:10px 15px;
-  border-bottom:1px solid #e5e5e5;
+  border-bottom:1rpx solid #e5e5e5;
   line-height:1.8;
   background-color:#fff;
+}
+.record-time{
+  font-size:34rpx;
+}
+.record-status{
+  font-size:28rpx;
 }
 .record-address{
   color:#888;
@@ -268,4 +281,14 @@ height:40px;
 .record-status {
   color:#888;
   font-size:12px;
+}
+.record-type-time.gray {
+  color:#888;
+}
+.noRecord.list-item{
+  font-size:34rpx;
+  background-color:transparent;
+  text-align:center;
+  border:none;
+  margin-top:10px;
 }

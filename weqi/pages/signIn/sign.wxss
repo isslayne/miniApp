@@ -1,6 +1,11 @@
+page{
+  background-color:#f1f7ff;
+}
+
 .container{
     font-family: -apple-system-font,Helvetica Neue,Helvetica,sans-serif;
     padding-bottom:0;
+    padding-top:86rpx;
 }
 .sign-btn{
     width: 128rpx;
@@ -32,12 +37,12 @@
   color:#888;
 }
 .signIn-icon{
-    width:120px;
-    height:120px;
+    width:320rpx;
+    height:320rpx;
 }
 .now-time{
   color:#328fee;
-  font-size:20px;
+  font-size:64rpx;
   margin-top:5px;
   margin-bottom:20px;
 }
@@ -45,7 +50,7 @@
   margin-bottom:10px;
 }
 .signIn-text{
-margin-top:-70px;
+margin-top:-180rpx;
 color:#fff;
 }
 
@@ -146,4 +151,8 @@ color:#fff;
 
 .late-title{
   color:red;
+}
+
+.sigIn-color{
+  color:#888;
 }

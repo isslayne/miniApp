@@ -14,8 +14,15 @@
           <view class="ruleList-title">{{item.name}}</view>
           <view class="ruleList-subTitle"><text>{{item.formatWorkDay}}</text><text class="workTime">{{item.workOnTime}}-{{item.workOffTime}}</text></view>
         </view>
-        <view class="navigator-arrow"></view>
+        <block wx:if="{{item.status}}">
+          <view class="rule-status">已启用</view>
+        </block>
+        <block wx:else>
+          <view class="rule-status status-submit" id="{{index}}" catchtap="enableRule">启用</view>
+        </block>
+        <!--<view class="navigator-arrow"></view>-->
       </view>
     </block>
+    <view bindtap="createRule"><image class="createRule-icon" mode="aspectFit" src="{{addIcon}}"></image></view>
   </block>
 </view>
