@@ -157,17 +157,28 @@ Page({
 
   },
   checkUser:function(user,data){
+    var _this = this;
     if(data.ruleList && data.ruleList.length){
       var userConfig = {
         ruleType : user.roleType,//1为管理员
         hasRule : true,
         hasCompany : true,
-        company = data,
-        ruleList : data.ruleList;
+        company : data,
+        ruleList : data.ruleList,
+        uid:user._id,
+        cid:user.cid,
+        isNewDay:isNewDay
       };
-      _this.getLocalData(userConfig);
+      wx.setStorage({
+        key:app.globalData.userInfo.nickName,
+        data:userConfig,
+        success:function(){
+          _this.getLocalData(userConfig);
+        }
+      })
+      // this.getLocalData(userConfig);
     }else{
-      _this.setData({
+      this.setData({
         noRule:0,
         roleType:user.roleType
       })
@@ -381,7 +392,7 @@ Page({
                       //考勤规则判断
                       var nowWeek = _this.getNowTime().nowWeek;
 
-                      var hasRule = ruleList[0].workDay.some(function(item){
+                      var hasRule = ruleList[0].workDay.split(',').some(function(item){
                          return item ==nowWeek;
                       });
 
@@ -535,6 +546,23 @@ Page({
       key:app.globalData.userInfo.nickName,
       data:_this.userConfig
     });
+
+    //保存isNewDay到服务器
+    wx.request({
+      url:'http://127.0.0.1:3000/updateMemberInfo/'+_this.userConfig.uid,
+      method:'POST',
+      data:{
+        isNewDay:isNewDay
+      },
+      success:function(res){
+        if(res.data.status !== 0){
+          wx.showToast({
+            title:res.data.msg,
+            icon:'success'
+          });
+        }
+      }
+    })
 
     var filterRecordList = recordList.filter(function(item){
       return item.signDate == _this.getNowTime().nowDate;

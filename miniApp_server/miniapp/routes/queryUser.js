@@ -20,7 +20,7 @@ router.get('/', function(req,res,next){
 
     if(member === null){
       res.json({
-        status:100001,
+        status:10002,
         msg:'null'
       });
     }else {

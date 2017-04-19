@@ -23,6 +23,10 @@ var Member = Schema({
       type:Number,
       default:0
     },
+    isNewDay:{
+      type:String,
+      default:''
+    },
     company:{
        type:Schema.ObjectId,
        ref:'Company'
