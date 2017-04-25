@@ -14,7 +14,8 @@
     "pages/detailRecord/detailRecord",
     "pages/setContact/detail/detail",
     "pages/addMember/member",
-    "pages/memberStatus/status"
+    "pages/memberStatus/status",
+    "pages/activeApp/activeApp"
 
   ],
   "window":{

@@ -7,6 +7,10 @@ var RuleList = new Schema({
     type:String,
     default:''
   },
+  status:{
+    type:Boolean,
+    default:false
+  },
   address:{
     type:String,
     default:''

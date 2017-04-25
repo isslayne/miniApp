@@ -6,7 +6,7 @@
     </view>
 
     <view class="btn-container">
-      <button class="vui_btn vui_btn_plain_default" bindtap="getWildDogData">看看审批有没有通过</button>
+      <button class="vui_btn vui_btn_plain_default" bindtap="refreshStatus">看看审批有没有通过</button>
 
       <view class="status-tips" bindtap="cancelApplication">取消申请</view>
 

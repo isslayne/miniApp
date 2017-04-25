@@ -67,18 +67,30 @@ const conf = {
   getDayRecord:function(e){
     var targetDay = e.currentTarget.dataset.date;
     var nowDate = this.getNowDate();
-    var pickedRecord = this.userConfig.recordList.filter(function(item){
-      return item.signDate == targetDay;
-    });
 
-    var hasPickedDay = pickedRecord.length? true:false;
-    if(targetDay <= nowDate){
-      this.setData({
-        hasPickedDay:hasPickedDay,
-        pickedDay:targetDay,
-        pickedDayRecord:hasPickedDay ? pickedRecord[0] :{signInTime:'',signInAddress:'',signOffTime:'',signOffAddress:''}
+    if(this.userConfig.recordList){
+      var pickedRecord = this.userConfig.recordList.filter(function(item){
+        return item.signDate == targetDay;
       });
+
+      var hasPickedDay = pickedRecord.length? true:false;
+      if(targetDay <= nowDate){
+        this.setData({
+          hasPickedDay:hasPickedDay,
+          pickedDay:targetDay,
+          pickedDayRecord:hasPickedDay ? pickedRecord[0] :{signInTime:'',signInAddress:'',signOffTime:'',signOffAddress:''}
+        });
+      }
+    }else{
+      if(targetDay <= nowDate){
+        this.setData({
+          hasPickedDay:false,
+          pickedDay:targetDay,
+          pickedDayRecord:hasPickedDay ? pickedRecord[0] :{signInTime:'',signInAddress:'',signOffTime:'',signOffAddress:''}
+        });
+      }
     }
+
 
   },
   getFirstDayRecord:function(targetDay){
@@ -132,6 +144,7 @@ const conf = {
 
       this.calculateDays(newYear, newMonth);
       this.calculateEmptyGrids(newYear, newMonth);
+      this.renderMonthStatus(this.userConfig.recordList);
 
       this.setData({
         pickedDay:_this.toTenFormat(newYear)+'-'+_this.toTenFormat(newMonth)+'-01',
@@ -162,6 +175,7 @@ const conf = {
       }else if(pickedMonth==nowMonth){
         this.calculateDays(newYear, newMonth);
         this.calculateEmptyGrids(newYear, newMonth);
+        this.renderMonthStatus(this.userConfig.recordList);
 
         console.log()
         this.setData({
@@ -198,28 +212,38 @@ const conf = {
           _this.ruleList = userConfig.ruleList;
           _this.userConfig = userConfig;
 
-          if(_this.userConfig.recordList.length === 0){
+          if(!_this.userConfig.recordList || _this.userConfig.recordList.length === 0){
             hasRecord = false;
+            _this.setData({
+              name:app.globalData.userInfo.nickName,
+              company:_this.userConfig.company.name,
+              signInfo:{
+                recordList: _this.userConfig.recordList,
+                hasRecord: hasRecord
+              },
+            })
+          }else{
+            var pickedRecord = _this.userConfig.recordList.filter(function(item){
+              return item.signDate == cur_dateDay;
+            })
+
+            var hasPickedDay = pickedRecord.length? true:false;
+
+            _this.setData({
+              // noRule:2,
+              roleType:userConfig.ruleType,
+              name:app.globalData.userInfo.nickName,
+              company:_this.userConfig.company.name,
+              signInfo:{
+                recordList: _this.userConfig.recordList,
+                hasRecord: hasRecord
+              },
+              hasPickedDay:hasPickedDay,
+              pickedDayRecord:pickedRecord[0]
+            })
           }
 
-          var pickedRecord = _this.userConfig.recordList.filter(function(item){
-            return item.signDate == cur_dateDay;
-          })
 
-          var hasPickedDay = pickedRecord.length? true:false;
-
-          _this.setData({
-            noRule:2,
-            roleType:userConfig.ruleType,
-            name:app.globalData.userInfo.nickName,
-            company:_this.userConfig.company.name,
-            signInfo:{
-              recordList: _this.userConfig.recordList,
-              hasRecord: hasRecord
-            },
-            hasPickedDay:hasPickedDay,
-            pickedDayRecord:pickedRecord[0]
-          })
         }else{
           _this.setData({
             noRule:0,
@@ -232,7 +256,61 @@ const conf = {
         });
       }
 
+      //渲染月考勤状态视图
+      _this.renderMonthStatus(_this.userConfig.recordList,_this.getNowDate('month'));
     });
+  },
+  renderMonthStatus:function(list,month){
+    var filterList =[];
+    var monthArray = this.data.days;
+    if(list){
+      list.forEach(function(item){
+        monthArray.forEach(function(days){
+          if(item.signDate == days.date){
+            if(item.signInStatus ==1||item.signInStatus ==3){
+              var dayStatus = {
+                status:item.signInStatus,
+                day:days
+              };
+            }else if(item.signInStatus ==0 && item.signOffStatus ==2 ){
+              dayStatus = {
+                status:item.signOffStatus,
+                day:days
+              };
+            }else if(item.signInStatus ==1 && item.signOffStatus ==2){
+              dayStatus = {
+                status:4,
+                day:days
+              };
+            }else{
+              dayStatus = {
+                status:0,
+                day:days
+              };
+            }
+
+          }else{
+            dayStatus = {
+              status:0,
+              day:days
+            };
+          }
+          filterList.push(dayStatus);
+        })
+      });
+    } else{
+      monthArray.forEach(function(days){
+        var dayStatus = {
+          status:0,
+          day:days
+        };
+        filterList.push(dayStatus);
+      })
+    }
+
+    this.setData({
+      filterList:filterList
+    })
   },
   getRecordStatistic:function(){
     wx.navigateBack({

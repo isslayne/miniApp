@@ -33,7 +33,7 @@ Page({
             formatRuleList.push(item);
 
             workDayRule.forEach(function(itm,index){
-              switch(itm){
+              switch(Number(itm)){
                 case 1:
                   workRule.push('周一');
                   break;
@@ -105,23 +105,41 @@ Page({
           formatRuleList[index].status = false;
       }
     });
+    _this.updateRuleList(e.currentTarget.dataset.rid,formatRuleList);
 
-    wx.setStorage({
-      key:_this.userKey,
-      data:_this.userConfig,
-      success:function(){
-        wx.showToast({
-          title:'已启用',
-          icon:'success'
-        });
+
+
+    // this.setData({
+    //   ruleList:formatRuleList
+    // });
+
+  },
+  updateRuleList:function(rid,formatRuleList){
+    var _this = this;
+    wx.request({
+      url:config.server+'/enableRule/'+rid,
+      method:'POST',
+      data:{
+        cid:_this.userConfig.cid
+      },
+      success:function(res){
+        if(res.data.status===0){
+          wx.setStorage({
+            key:_this.userKey,
+            data:_this.userConfig,
+            success:function(){
+              wx.showToast({
+                title:'已启用',
+                icon:'success'
+              });
+            }
+          });
+          _this.setData({
+            ruleList:formatRuleList
+          });
+        }
       }
     })
-
-
-    this.setData({
-      ruleList:formatRuleList
-    });
-
   },
   createRule:function(){
     var _this = this;
@@ -146,7 +164,7 @@ Page({
     })
 
     wx.navigateTo({
-      url:'../setRule/rule?ruleId='+id
+      url:'../setRule/rule?ruleId='+id+'&rid='+e.currentTarget.dataset.rid
     })
 
   }

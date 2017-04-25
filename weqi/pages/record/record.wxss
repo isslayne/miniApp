@@ -226,15 +226,19 @@ height:100rpx;
   align-items:center;
 }
 
+.record-type-status{
+  font-size:28rpx;
+}
 .record-type-status:before{
     content:" ";
     border-radius:50%;
     display:inline-block;
-    width:5px;
-    height:5px;
+    width:8rpx;
+    height:8rpx;
+    font-size:28rpx;
     position:relative;
-    top:-2px;
-    right:5px;
+    top:-2rpx;
+    right:8rpx;
 }
 .record-status-normal:before{
     border:2px solid #328fee;
@@ -291,4 +295,7 @@ height:100rpx;
   text-align:center;
   border:none;
   margin-top:10px;
+}
+.record-type-time{
+  font-size:36rpx;
 }

@@ -36,7 +36,7 @@
       <block wx:else>
         <view class="sigIn-color">开始崭新的一天</view>
       </block>
-      <view class="now-time">{{signTime}}</view>
+      <view class="now-time">{{liveTime}}</view>
       <image class="signIn-icon" mode="aspectFit" src="{{signSucIcon}}" bindtap="signIn"></image>
       <text class="signIn-text" bindtap="signIn">打卡</text>
       <!--<text class="sign-address">{{signInfo.address}}</text>-->
@@ -45,14 +45,19 @@
         <view class="sign-list-title">打卡记录</view>
         <view class="list-item">
           <image class="list-icon" mode="aspectFit" src="{{signListIconSelected}}"></image>
-          <view class="record-time workOnTime">上班时间：<text class="record-list-time">{{signInfo.recordList.signInTime}}</text></view>
-          <view class="record-address">打卡地点：<text class="record-list-address">{{signInfo.recordList.signInAddress}}</text></view>
+          <view class="recoed-cell-body">
+            <view class="record-time workOnTime">上班时间：<text class="record-list-time">{{signInfo.recordList.signInTime}}</text></view>
+            <view class="record-address">打卡地点：<text class="record-list-address">{{signInfo.recordList.signInAddress}}</text></view>
+          </view>
+
         </view>
 
         <view class="list-item">
           <image class="list-icon" mode="aspectFit" src="{{signListIcon}}"></image>
-          <view class="record-time">下班时间：<text class="record-list-time">{{signInfo.recordList.signOffTime}}</text></view>
-          <view class="record-address">打卡地点：<text class="record-list-address">{{signInfo.recordList.signOffAddress}}</text></view>
+          <view class="recoed-cell-body">
+            <view class="record-time">下班时间：<text class="record-list-time">{{signInfo.recordList.signOffTime}}</text></view>
+            <view class="record-address">打卡地点：<text class="record-list-address">{{signInfo.recordList.signOffAddress}}</text></view>
+          </view>
         </view>
 
         <!-- <block wx:for="{{signInfo.recordList}}" wx:key="{{item.id}}">

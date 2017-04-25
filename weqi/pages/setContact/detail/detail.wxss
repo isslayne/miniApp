@@ -15,11 +15,11 @@
   box-sizing:border-box;
 }
 .form_cell_title_default{
-  margin-left:40px;
+  margin-left:120rpx;
 }
 .icon-contact {
   position:absolute;
-  left:5px;
+  left:15px;
   width:46px;
   height:46px;
   margin-right:10px;

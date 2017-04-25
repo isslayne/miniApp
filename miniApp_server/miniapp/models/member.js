@@ -11,6 +11,11 @@ var Member = Schema({
       type:String,
       default:''
     },
+    nickName:{
+      type:String,
+      default:''
+    },
+
     approveStatus:{
       type:Number,
       default:0

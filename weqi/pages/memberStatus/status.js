@@ -1,16 +1,33 @@
 var app = getApp();
+var config = require('../../config');
 Page({
   data:{
     approveStatus:0
   },
-  onLoad:function(){
-    this.checkLogin();
+  onLoad:function(option){
+    this.option = option;
+    this.checkLogin(option);
   },
-  checkLogin:function(){
+  checkLogin:function(option){
+    var _this = this;
     wx.request({
-      url:'http://apis.isslayne.com/signin?name=layne',
+      url:config.server+'/getUserStatus',
+      method:'POST',
+      data:{
+        uid:option.uid,
+        cid:option.cid
+      },
       success:function(res){
         console.log(res.data.status);
+        if(res.data.status ===0){
+          _this.saveInfo(res.data.userInfo);
+        }
+      },
+      fail:function(){
+        wx.showToast({
+          title:'网络错误',
+          icon:'success'
+        });
       }
     })
   },
@@ -32,35 +49,56 @@ Page({
     var userInfo ={};
 
     _this.setData({
-      approveStatus:1
+      approveStatus:data.member.approveStatus
     });
-    userInfo.ruleList = data.ruleList;
+
+    userInfo.ruleType = data.member.roleType;
+    userInfo.ruleList = data.company.ruleList;
     userInfo.company = data.company;
     userInfo.hasRule = true;
     userInfo.hasCompany = true;
-    userInfo.ruleType = 0;
+    userInfo.uid = data.member._id;
+    userInfo.cid = data.company._id;
+    userInfo.isNewDay = data.member.isNewDay;
 
-    _this.setData({
-      second:second
+    data.company.ruleList.forEach(function(item){
+      item.workDay = item.workDay.split(',');
     });
-    setInterval(function(){
-        second --;
-      _this.setData({
-        second:second
-      });
-    },1000);
 
-    wx.setStorage({
-      key:userKey,
-      data:userInfo,
-      success:function(){
-        setTimeout(function(){
-          wx.switchTab({
-            url:'../signIn/sign'
-          });
-        },5000);
-      }
-    })
+    if(data.member.approveStatus === 1){
+      _this.setData({
+        second:second,
+        approveStatus:data.member.approveStatus
+      });
+      setInterval(function(){
+          second --;
+        _this.setData({
+          second:second
+        });
+      },1000);
+
+      wx.setStorage({
+        key:userKey,
+        data:userInfo,
+        success:function(){
+          setTimeout(function(){
+            wx.switchTab({
+              url:'../signIn/sign'
+            });
+          },5000);
+        }
+      })
+    }else{
+      wx.setStorage({
+        key:userKey,
+        data:userInfo
+      })
+    }
+
+  },
+  refreshStatus:function(){
+    var _this = this;
+    this.checkLogin(_this.option);
   },
   jumpTosign:function(){
     wx.switchTab({
@@ -80,7 +118,7 @@ Page({
     //   }
     // }
     wx.request({
-      url:'http://10.16.33.62/signin?name=layne',
+      url:config.server+'/signin?name=layne',
       success:function(res){
         var second =5;
         console.log(res.data.status);

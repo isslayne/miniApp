@@ -23,8 +23,16 @@
         <view class="days box box-lr box-wrap">
             <view wx:if="{{hasEmptyGrid}}" class="grid white-color box box-align-center box-pack-center" wx:for="{{empytGrids}}" wx:key="{{index}}" data-idx="{{index}}">
             </view>
-            <view class="grid white-color box box-align-center box-pack-center" wx:for="{{days}}" wx:key="{{index}}" data-idx="{{index}}">
-                <view class="day {{item.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.date}}" bindtap = "getDayRecord">{{item.day}}</view>
+            <view class="grid white-color box box-align-center box-pack-center" wx:for="{{filterList}}" wx:key="{{index}}" data-idx="{{index}}">
+              <block wx:if="{{item.status == 1 ||item.status==2 || item.status == 3}}">
+                <view class="day abnormal-day {{item.day.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.day.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.day.date}}" bindtap = "getDayRecord">{{item.day.day}}</view>
+              </block>
+              <block wx:elif="{{item.status == 4}}">
+                <view class="day absence-day {{item.day.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.day.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.day.date}}" bindtap = "getDayRecord">{{item.day.day}}</view>
+              </block>
+              <block wx:else>
+                <view class="day {{item.day.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.day.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.day.date}}" bindtap = "getDayRecord">{{item.day.day}}</view>
+              </block>
             </view>
         </view>
     </view>

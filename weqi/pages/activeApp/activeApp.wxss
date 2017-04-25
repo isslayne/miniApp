@@ -1,0 +1,57 @@
+.form_cell{
+  position:relative;
+  flex-direction:column;
+  webkit-box-align:flex-start;
+  -webkit-align-items:flex-start;
+  -ms-flex-align:flex-start;
+  align-items:flex-start;
+  justify-content:center;
+  height:250rpx;
+  padding-left:0;
+  background-color:#328fee;
+  margin-left:20rpx;
+  margin-right:20rpx;
+  border-radius:4px;
+}
+.form_cell.createCompany-cell{
+  background-color:#fff;
+  margin-top:20rpx;
+}
+
+.icon-contact {
+  position:absolute;
+  left:70rpx;
+  top:50%;
+  margin-top:-30rpx;
+  width:60rpx;
+  height:60rpx;
+}
+
+.form_cell_title_default{
+  display:flex;
+  flex-direction:column;
+  align-items:flex-start;
+  justify-content:space-between;
+  box-sizing:border-box;
+  margin-left:200rpx;
+  width:auto;
+}
+
+.activeApp-wrap{
+  margin-top:200rpx;
+}
+.cell-title{
+  font-size:48rpx;
+  color:#fff;
+}
+.cell-subTitle{
+  font-size:32rpx;
+  line-height:2;
+  color:#add2f8;
+}
+.createCompany-cell .cell-title{
+  color:#000
+}
+.createCompany-cell .cell-subTitle{
+  color:#888
+}

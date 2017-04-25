@@ -50,19 +50,21 @@ page{
   margin-bottom:10px;
 }
 .signIn-text{
-margin-top:-180rpx;
+margin-top:-196rpx;
 color:#fff;
+font-size:56rpx;
 }
 
 .sign-list{
   /**margin:80px 30px 0;**/
-  margin:80px 0 0;
+  margin:85px 0 0;
   padding:0 30px;
   box-sizing:border-box;
   width:100%;
 }
 .sign-list-title{
   margin-bottom:15px;
+  font-size:28rpx;
 }
 
 .list-item{
@@ -71,19 +73,21 @@ color:#fff;
   padding-left:15px;
   border-left:1px solid #888;
   line-height:1.8;
+  font-size:28rpx;
 }
 
 .list-icon{
-  width:25px;
-  height:25px;
-  top:-1px;
-  left:-13px;
+  width:32rpx;
+  height:32rpx;
+  top:0;
+  left:-16rpx;
   position:absolute;
 
 }
 
 .record-address{
   color:#888;
+  padding-top:15px;
 }
 .workOnTime{
   color:#328fee;
@@ -155,4 +159,11 @@ color:#fff;
 
 .sigIn-color{
   color:#888;
+}
+.recoed-cell-body {
+  position:relative;
+}
+.record-time {
+  position:absolute;
+  margin-top:-6rpx;
 }

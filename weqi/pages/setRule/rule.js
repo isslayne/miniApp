@@ -1,4 +1,6 @@
 var app = getApp();
+var config = require('../../config');
+
 Page({
   data:{
     btnDisabled:true,
@@ -39,6 +41,7 @@ Page({
   onLoad:function(option){
     if(option.ruleId){
       this.ruleId = option.ruleId;
+      this.rid = option.rid;
       this.checkUserConfig(this.ruleId);
     }else{
       this.checkUserConfig();
@@ -101,6 +104,7 @@ Page({
           btnDisabled:false,
           list:curweekList,
           currentRule:curRuleList,
+          status:userConfig.currentRule.status,
           latitude:userConfig.currentRule.latitude,
           longitude:userConfig.currentRule.longitude,
           startTime:userConfig.currentRule.workOnTime,
@@ -200,6 +204,7 @@ Page({
     });
 
     pickedRule = {
+      status:_this.data.status,
       address:_this.data.address,
       addressName:_this.data.addressName,
       latitude:_this.data.latitude,
@@ -213,10 +218,53 @@ Page({
     if(this.userConfig.currentRule &&   this.ruleId !=null){
       // pickedRule.signScope = this.userConfig.currentRule.signScope;
       pickedRule.signScope = this.data.pickedDistance.split('米')[0];
+      // this.userConfig.currentRule = pickedRule;
+      // this.userConfig.ruleList[_this.ruleId] = pickedRule;
+    } else{
+        pickedRule.status = false;
+        pickedRule.signScope = this.data.pickedDistance.split('米')[0];
+        // this.userConfig.ruleList.push(pickedRule);
+    }
+
+    if(this.ruleId !=null && this.rid){
+      var server = config.server+'/updateRule/'+_this.rid;
+      // pickedRule.workOnTime = _this.data.startTime;
+      // pickedRule.workOffTime =_this.data.endTime;
+    } else {
+      pickedRule.status =false;
+      server = config.server+'/addRule/'+_this.userConfig.cid;
+    }
+    pickedRule.signScope = this.data.pickedDistance.split('米')[0];
+    pickedRule.workDay  =pickedWeekDay.join(',');
+    wx.request({
+      url:server,
+      method:'POST',
+      data:pickedRule,
+      success:function(res){
+        if(res.data.status===0){
+          _this.saveLocalStorage(pickedRule,res.data.rid)
+          setTimeout(function(){
+            wx.navigateBack({
+              delta:1
+            });
+          },1500);
+        }
+      }
+    })
+
+  },
+  saveLocalStorage:function(pickedRule,rid){
+    var _this = this;
+    pickedRule.workDay = pickedRule.workDay.split(',');
+    if(this.userConfig.currentRule &&   this.ruleId !=null){
+      // pickedRule.signScope = this.userConfig.currentRule.signScope;
+      pickedRule.signScope = this.data.pickedDistance.split('米')[0];
+      pickedRule._id = rid;
       this.userConfig.currentRule = pickedRule;
       this.userConfig.ruleList[_this.ruleId] = pickedRule;
     } else{
         pickedRule.status = false;
+        pickedRule._id = rid;
         pickedRule.signScope = this.data.pickedDistance.split('米')[0];
         this.userConfig.ruleList.push(pickedRule);
     }
@@ -228,11 +276,11 @@ Page({
           icon:'success',
           title:'保存成功',
           success:function(){
-            setTimeout(function(){
-              wx.navigateBack({
-                delta:1
-              });
-            },1500);
+            // setTimeout(function(){
+            //   wx.navigateBack({
+            //     delta:1
+            //   });
+            // },1500);
           }
         });
       }
@@ -257,27 +305,62 @@ Page({
                 _this.userConfig.hasRule =false;
             }
 
+            _this.deleteRuleApi();
             wx.setStorage({
               key:_this.userKey,
               data:_this.userConfig,
               success:function(){
-                wx.showToast({
-                  icon:'success',
-                  title:'删除成功',
-                  success:function(){
-                    setTimeout(function(){
-                      wx.navigateBack({
-                        delta:1
-                      });
-                    },1500);
-                  }
-                });
+                // wx.showToast({
+                //   icon:'success',
+                //   title:'删除成功',
+                //   success:function(){
+                //     setTimeout(function(){
+                //       wx.navigateBack({
+                //         delta:1
+                //       });
+                //     },1500);
+                //   }
+                // });
               }
             });
           }
         }
       })
 
+  },
+  deleteRuleApi:function(){
+    var _this = this;
+    wx.request({
+      url:config.server+'/deleteRule/'+_this.rid,
+      method:'POST',
+      data:{
+        cid:_this.userConfig.cid
+      },
+      success:function(res){
+        if(res.data.status === 0){
+          if(res.data.status===0){
+            wx.showToast({
+              title:'提交成功',
+              icon:'success',
+              success:function(){
+                setTimeout(function(){
+                  wx.navigateBack({
+                    delta:1
+                  });
+                },1500);
+              }
+            })
+
+          }
+        }
+      },
+      fail:function(){
+        wx.showToast({
+          title:'网络错误',
+          icon:'success'
+        });
+      }
+    })
   },
   toggleDay:function(e){
     var id = e.currentTarget.id;

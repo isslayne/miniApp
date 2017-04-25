@@ -48,10 +48,11 @@ Page({
   submitActiveInfo:function(activeData){
     var _this = this;
     wx.request({
-      url:'http://127.0.0.1:3000/createCompany',
+      url:config.server+'/createCompany',
       method:'POST',
       data:{
         memberName:app.globalData.userInfo.nickName,
+        nickName:app.globalData.userInfo.nickName,
         companyName:_this.data.companyName,
         rule:{
           name:activeData.name,

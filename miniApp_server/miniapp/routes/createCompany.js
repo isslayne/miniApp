@@ -17,8 +17,9 @@ router.post('/',function(req,res,next){
 
   var member = new Member({
     name:req.body.memberName,
+    nickName:req.body.nickName,
     approveStatus:1,
-    roleType:0
+    roleType:1
   });
 
   // member.company.push(company);

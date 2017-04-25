@@ -55,15 +55,24 @@ Page({
     // this.rotateAnimation();
   },
   onShow:function(){
-    if(this.inviteCode && (this.inviteCode==config.inviteCode|| this.inviteCode==config.expCode)){
+    var decodeUrl = this.inviteCode && this.inviteCode.split('#');
+    // if(this.inviteCode && (decodeUrl[0]==config.inviteCode|| this.inviteCode==config.expCode)){
+    if(this.inviteCode && (decodeUrl[0]==config.inviteCode||decodeUrl[0] ==config.expCode)){
       wx.redirectTo({
-        url:'../addMember/member'
+        // url:'../addMember/member?cid='+decodeUrl[1]
+        url:'../activeApp/activeApp'
       });
     }else{
       // this.checkUserConfig('switchTab');
       // wx.redirectTo({
       //   url:'../activeSignInfo/active'
       // });
+      // wx.redirectTo({
+      //     url:'../addMember/member?cid=58f8aee60662fb0d18b099e8'
+      // })
+      // wx.redirectTo({
+      //   url:'../activeApp/activeApp'
+      // })
       this.queryUserInfo('switchTab');
     }
   },
@@ -97,15 +106,18 @@ Page({
         nowHour =0;
       }
 
-      if(type&& type ==2){
-        _this.setData({
-          signTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
-        })
-      } else {
-        _this.setData({
-          liveTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
-        })
-      }
+      _this.setData({
+        liveTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
+      })
+      // if(type&& type ==2){
+      //   _this.setData({
+      //     signTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
+      //   })
+      // } else {
+      //   _this.setData({
+      //     liveTime:_this.toTenFormat(nowHour) + ":"+_this.toTenFormat(nowMinute)+':'+_this.toTenFormat(nowSecond)
+      //   })
+      // }
 
     },1000);
 
@@ -126,38 +138,53 @@ Page({
     var _this = this;
     app.getUserInfo(function(userInfo){
       var userConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
-    })
+      wx.request({
+        url:config.server+'/queryUser',
+        method:'GET',
+        data:{
+          uid:app.globalData.userInfo.nickName
+        },
+        success:function(res){
+          console.log(JSON.stringify(res));
+          if(res.data.status ===0){
+            _this.checkUserStatus(res.data.member,res.data.company);
+            // _this.checkUser(res.data.member,res.data.company);
+          }else if(res.data.status ===10002){
+            wx.redirectTo({
+              url:'../activeApp/activeApp'
+            });
+          } else{
 
-
-    wx.request({
-      url:'http://127.0.0.1:3000/queryUser',
-      method:'GET',
-      data:{
-        uid:app.globalData.userInfo.nickName
-      },
-      success:function(res){
-        console.log(JSON.stringify(res));
-        if(res.data.status ===0){
-          _this.checkUser(res.data.member,res.data.company);
-        }else if(res.data.status ===10002){
-          wx.redirectTo({
-            url:'../activeSignInfo/active'
+          }
+        },
+        fail:function(){
+          wx.showToast({
+            title:'网络错误',
+            icon:'success'
           });
-        } else{
-
         }
-      },
-      fail:function(){
-        wx.showToast({
-          title:'网络错误',
-          icon:'success'
-        });
-      }
+      })
     })
+
+  },
+  checkUserStatus:function(member,company){
+    var _this = this;
+    if(member.approveStatus == 0 || member.approveStatus == 2){
+      wx.redirectTo({
+        url:'../memberStatus/status?uid='+member._id+'&cid='+member.cid
+      });
+    }else {
+      _this.checkUser(member,company);
+    }
 
   },
   checkUser:function(user,data){
     var _this = this;
+    var localUserConfig;
+    app.getUserInfo(function(userInfo){
+      localUserConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+    });
+
     if(data.ruleList && data.ruleList.length){
       var userConfig = {
         ruleType : user.roleType,//1为管理员
@@ -167,13 +194,27 @@ Page({
         ruleList : data.ruleList,
         uid:user._id,
         cid:user.cid,
-        isNewDay:isNewDay
+        isNewDay:user.isNewDay
       };
+
+      data.ruleList.forEach(function(item,index){
+        item.workDay = item.workDay.split(',');
+      })
+
+      localUserConfig.ruleType = user.roleType;
+      localUserConfig.company = data;
+      localUserConfig.hasRule = true;
+      localUserConfig.hasCompany = true;
+      localUserConfig.ruleList = data.ruleList;
+      localUserConfig.uid=user._id;
+      localUserConfig.cid=user.cid;
+      localUserConfig.isNewDay=user.isNewDay;
+
       wx.setStorage({
         key:app.globalData.userInfo.nickName,
-        data:userConfig,
+        data:localUserConfig,
         success:function(){
-          _this.getLocalData(userConfig);
+          _this.getLocalData(localUserConfig);
         }
       })
       // this.getLocalData(userConfig);
@@ -260,20 +301,36 @@ Page({
             _this.getLocation(userConfig.ruleList,isNewDay);
 
         }else{
-          var filterRecordList = _this.userConfig.recordList.filter(function(item){
-            return item.signDate == _this.getNowTime().nowDate;
+          app.getUserInfo(function(userInfo){
+            clearInterval(_this.timer);
+            _this.liveTime();
+
+            var localUserConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+
+            if(localUserConfig.recordList && localUserConfig.recordList.length){
+              var filterRecordList = localUserConfig.recordList.filter(function(item){
+                return item.signDate == _this.getNowTime().nowDate;
+              });
+              _this.setData({
+                noRule:2,
+                roleType:localUserConfig.ruleType,
+                signInfo:{
+                  // address:address,
+                  recordList:filterRecordList[0]
+                }
+              })
+            }else {
+              _this.setData({
+                noRule:2,
+                roleType:localUserConfig.ruleType,
+                signInfo:{
+                  // address:address,
+                  recordList:[]
+                }
+              })
+            }
           });
 
-          _this.liveTime(2);
-
-          _this.setData({
-            noRule:2,
-            roleType:userConfig.ruleType,
-            signInfo:{
-              // address:address,
-              recordList:filterRecordList[0]
-            }
-          })
         }
         // _this.getLocation(userConfig.ruleList,isNewDay);
 
@@ -289,7 +346,7 @@ Page({
       }
     }else{
       wx.redirectTo({
-        url:'../activeSignInfo/active'
+        url:'../activeApp/activeApp'
       });
     }
   },
@@ -314,11 +371,13 @@ Page({
     // wx.redirectTo({
     //   url:'../activeSignInfo/active'
     // });
+
+    var isNewDay = this.isNewDay();
     this.setData({
       noRule:1,
       roleType:this.userConfig.ruleType
     });
-    this.getLocation(this.userConfig.ruleList);
+    this.getLocation(this.userConfig.ruleList,isNewDay);
     // this.getLocation();
   },
   setRule:function(){
@@ -392,7 +451,7 @@ Page({
                       //考勤规则判断
                       var nowWeek = _this.getNowTime().nowWeek;
 
-                      var hasRule = ruleList[0].workDay.split(',').some(function(item){
+                      var hasRule = ruleList[0].workDay.some(function(item){
                          return item ==nowWeek;
                       });
 
@@ -419,7 +478,7 @@ Page({
                         if(isNewDay || (isNewDay&&isNewDay.length)){
                           _this.saveSignInfo(distance,res.result.address,isNewDay);
                         } else{
-                          _this.saveSignInfo(distance,res.result.address);
+                          _this.saveSignInfo(distance,res.result.address,isNewDay);
                         }
 
                       } else {
@@ -469,7 +528,11 @@ Page({
                             _this.setData({
                               noRule:2
                             });
-                          };
+                          }else{
+                            _this.setData({
+                              noRule:2
+                            });
+                          }
                         }
                       })
                     }
@@ -509,7 +572,9 @@ Page({
           item.signOffTime = nowDate.nowTimeDate;
           item.signOffDistance = distance;
           item.signOffAddress = address;
-          item.signOffStatus = _this.checkSignStatus('off');
+          item.signOffStatus = _this.checkSignStatus('off').status;
+          // item.lateTime = _this.checkSignStatus('in').lateTime;
+          item.earlyTime = _this.checkSignStatus('off').earlyTime;
         }
       });
 
@@ -527,7 +592,11 @@ Page({
         signInTime:nowDate.nowTimeDate,
         signInDistance:distance,
         signInAddress:address,
-        signInStatus:_this.checkSignStatus('in'),
+        // signInStatus:_this.checkSignStatus('in'),
+        signInStatus : _this.checkSignStatus('in').status,
+        lateTime : _this.checkSignStatus('in').lateTime,
+        // earlyTime : _this.checkSignStatus('in').earlyTime,
+        earlyTime : '0',
         signOffTime:'',
         signOffDistance:'',
         signOffAddress:'',
@@ -540,6 +609,8 @@ Page({
     this.userConfig.recordList = recordList;
     if(isNewDay||(isNewDay&&isNewDay.length)){
       this.userConfig.isNewDay = isNewDay;
+    } else{
+      isNewDay = this.userConfig.isNewDay
     }
 
     wx.setStorage({
@@ -549,7 +620,7 @@ Page({
 
     //保存isNewDay到服务器
     wx.request({
-      url:'http://127.0.0.1:3000/updateMemberInfo/'+_this.userConfig.uid,
+      url:config.server+'/updateMemberInfo/'+_this.userConfig.uid,
       method:'POST',
       data:{
         isNewDay:isNewDay
@@ -586,16 +657,55 @@ Page({
     var nowTime = this.getNowTime().nowTimeM;
     if(type == 'off'){
       if(nowTime <this.userConfig.ruleList[0].workOffTime){
-        return 2 //早退
+        var earlyTime = this.calculateTime(nowTime,this.userConfig.ruleList[0].workOffTime,'off');
+        var earlyInfo = {
+          lateTime:0,
+          earlyTime:earlyTime,
+          status:2//早退
+        }
+        return earlyInfo;
       }else{
-        return 3;
+        earlyInfo = {
+          lateTime:0,
+          earlyTime:0,
+          status:0
+        }
+        return earlyInfo;//正常下班
       }
-    }else if(type == 'in'){
-      if(nowTime >this.userConfig.ruleList[0].workOnTime){
-        return 1//迟到
+    } else if(type == 'in'){
+      if(nowTime >this.userConfig.ruleList[0].workOnTime && nowTime <this.userConfig.ruleList[0].workOffTime){
+        var lateTime = this.calculateTime(nowTime,this.userConfig.ruleList[0].workOnTime,'in');
+        var lateInfo = {
+          lateTime:lateTime,
+          earlyTime:0,
+          status:1//迟到
+        };
+        return lateInfo;
+      }else if(nowTime >=this.userConfig.ruleList[0].workOffTime){
+        lateInfo = {
+          lateTime:0,
+          earlyTime:0,
+          status:3//旷工
+        }
+        return lateInfo;//旷工
       }else{
-        return 0;
+        lateInfo = {
+          lateTime:0,
+          earlyTime:0,
+          status:0//正常
+        }
+        return lateInfo;
       }
+    }
+  },
+  calculateTime:function(nowTime,workTime,type){
+    var calcNowTime = nowTime.split(':')[0]*60+nowTime.split(':')[1];
+    var calcWorkTime = workTime.split(':')[0]*60+workTime.split(':')[1];
+    if(type == 'in'){
+      return calcNowTime -calcWorkTime;
+    }
+    if(type =='off'){
+      return calcWorkTime - calcNowTime;
     }
   },
   getNowTime:function(){

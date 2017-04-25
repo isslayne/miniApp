@@ -186,6 +186,7 @@ page {
 }
 .grid {
     width: 107.1428571429rpx;
+    postion:relative;
 }
 .day {
     width: 60rpx;
@@ -385,8 +386,8 @@ font-size:28rpx;
   /**margin:0 30px 0;**/
 }
 .sign-list-title{
-  margin-bottom:15px;
-  margin-top:15px;
+  margin-bottom:10px;
+  margin-top:10px;
   margin-left:30px;
   color:#888;
   font-size:28rpx;
@@ -407,16 +408,21 @@ font-size:28rpx;
 }
 
 .list-icon{
-  width:23px;
-  height:23px;
+  width:32rpx;
+  height:32rpx;
   top:0px;
-  left:-13px;
+  left:-16rpx;
   position:absolute;
+}
+.record-time{
+  position:absolute;
+  margin-top:-2px;
 
 }
 
 .record-address{
   color:#888;
+  padding-top:18px;
 }
 .workOnTime{
   color:#328fee;
@@ -427,4 +433,18 @@ font-size:28rpx;
   text-align:center;
   border:none;
   margin-top:20px;
+}
+
+.abnormal-day:after,.absence-day:after{
+  content: "•";
+  color: #fc3d39;
+  font-size:36rpx;
+  position:absolute;
+  left: 50%;
+  top:70%;
+  -webkit-transform: translate3d(-50%, 0, 0);
+  transform: translate3d(-50%, 0, 0);
+}
+.absence-day:after{
+  content: "••";
 }

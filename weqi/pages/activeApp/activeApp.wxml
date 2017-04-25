@@ -1,0 +1,16 @@
+<view class="activeApp-wrap">
+  <view class="form_cell scan-code-cell" bindtap="scanQRcode">
+    <image class="icon-contact" mode="aspectFit" src="{{icon_qrcode}}"></image>
+    <view class="form_cell_title_default">
+      <view class="cell-title">扫一扫加入公司</view>
+      <view class="cell-subTitle">已有公司</view>
+    </view>
+  </view>
+  <view class="form_cell createCompany-cell" bindtap="createCompany">
+    <image class="icon-contact" mode="aspectFit" src="{{icon_createCompany}}"></image>
+    <view class="form_cell_title_default">
+      <view class="cell-title">创建新公司</view>
+      <view class="cell-subTitle">还没有公司</view>
+    </view>
+  </view>
+</view>

@@ -72,6 +72,9 @@
 .weui-cells:after{
   border:none;
 }
+.weui-cells{
+  font-size:34rpx;
+}
 .weui-cell__bd{
   height:2.353em;
   line-height:2.353em;

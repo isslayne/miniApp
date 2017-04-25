@@ -147,7 +147,7 @@ Page({
       }
     });
 
-    //筛选对应日期记录
+    //筛选对应日期不同考勤状态的记录
     this.filterMonthStatus(pickedList);
 
   },
@@ -156,6 +156,7 @@ Page({
     this.filterMonthStatus(this.data.recordList,type);
   },
   filterMonthStatus:function(list,type){
+    var _this = this;
     var curType = type || 'late';
     var formatDataList = [];
 
@@ -178,7 +179,9 @@ Page({
 
           return item.signInStatus ==1;
         } else if (curType == 'early') {
-          return item.signInStatus ==2;
+          return item.signOffStatus ==2;
+        }else if(curType == 'absence'){
+          return item.signInStatus ==3;
         } else{
           filterList =[];
         }
@@ -186,6 +189,31 @@ Page({
       });
     }
 
+    //考勤统计显示
+    var earlyStatsCount=0;
+    var earlyStatsCountDay=0;
+    var lateStatsCount =0;
+    var normalStats = list.filter(function(item){
+      return item.signInStatus ==0 && item.signOffStatus ==0;
+    });
+    var lateStats = list.filter(function(item){
+      return item.signInStatus ==1;
+    });
+    lateStats.forEach(function(item){
+      lateStatsCount += Number(item.lateTime);
+    })
+    var earlyStats = list.filter(function(item){
+        return item.signOffStatus ==2;
+    });
+
+    earlyStats.forEach(function(item){
+      earlyStatsCount+=Number(item.earlyTime);
+    })
+    earlyStatsCountDay = (earlyStatsCount / ((_this.ruleList[0].workOffTime.split(':')[0]*60 + _this.ruleList[0].workOffTime.split(':')[1])- (_this.ruleList[0].workOnTime.split(':')[0]*60 +_this.ruleList[0].workOnTime.split(':')[1])) ).toFixed(1);
+
+    var absenceStats = list.filter(function(item){
+      return item.signInStatus ==3
+    });
 
 
     filterList.forEach(function(item){
@@ -200,15 +228,27 @@ Page({
         formatDataList.push({
           signInTime:item.signInTime,
           signInStatus:item.signInStatus,
-          signInAddress:item.signInAddress
+          signInAddress:item.signInAddress,
+          lateTime:item.lateTime,
+          earlyTime:item.earlyTime
         });
       } else if (curType == 'early') {
         formatDataList.push({
-          signOffTime:item.signInTime,
+          signInTime:item.signInTime,
           signOffStatus:item.signInStatus,
-          signOffAddress:item.signInAddress
+          signOffAddress:item.signInAddress,
+          lateTime:item.lateTime,
+          earlyTime:item.earlyTime
         });
-      } else{
+      } else if(curType == 'absence'){
+        formatDataList.push({
+          signInTime:item.signDate,
+          signOffStatus:item.signInStatus,
+          signOffAddress:item.signInAddress,
+          lateTime:item.lateTime,
+          earlyTime:item.earlyTime
+        });
+      }else{
         formatDataList =[];
       }
     });
@@ -219,7 +259,13 @@ Page({
       curType:curType,
       signInfo:{
         filterRecordList:formatDataList,
-        hasRecord:hasRecord
+        hasRecord:hasRecord,
+        normalStats:normalStats.length,
+        lateStats:lateStats.length,
+        earlyStats:earlyStatsCount,
+        absenceStats:absenceStats.length,
+        lateStatsCount:lateStatsCount,
+        earlyStatsCount:earlyStatsCount
       }
     })
 

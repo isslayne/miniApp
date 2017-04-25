@@ -1,7 +1,7 @@
 <view class="form_cell rule-setting-cell">
   <image class="icon-contact" src="{{icon_contact}}"></image>
   <view class="form_cell_title_default">
-    <view class="ruleList-title">王大锤</view>
+    <view class="ruleList-title">{{member.name}}</view>
     <block wx:if="{{approveStatus =='0'}}">
       <view class="ruleList-subTitle"><text>等待验证</text></view>
     </block>
@@ -18,13 +18,13 @@
 <view class="form_cell rule-setting-cell form_cell_remark">
   <view class="form_cell_remark_title">
     <view class="ruleList-remark-title">验证信息</view>
-    <view class="ruleList-remark-subTitle"><text>我叫王大锤</text></view>
+    <view class="ruleList-remark-subTitle"><text>{{member.approveInfo}}</text></view>
   </view>
 </view>
 
 <block wx:if ="{{approveStatus =='0'}}">
 <view class="submit-btn">
   <button class="vui_btn vui_btn_primary" type="default" bindtap="submit">同意</button>
-  <button class="vui_btn vui_btn_plain_default cancel-btn" type="default" bindtap="refuseApplycation" disabled="{{btnDisabled}}">拒绝</button>
+  <button class="vui_btn vui_btn_plain_default cancel-btn" type="default" bindtap="refuseApplycation">拒绝</button>
 </view>
 </block>

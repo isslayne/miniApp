@@ -9,7 +9,7 @@
   </block>
   <block wx:else>
     <block wx:for="{{ruleList}}" wx:key="{{item.id}}">
-      <view class="form_cell rule-setting-cell" id="{{index}}" bindtap="setDetailRule">
+      <view class="form_cell rule-setting-cell" id="{{index}}" data-rid = "{{item._id}}" bindtap="setDetailRule">
         <view class="form_cell_title_default">
           <view class="ruleList-title">{{item.name}}</view>
           <view class="ruleList-subTitle"><text>{{item.formatWorkDay}}</text><text class="workTime">{{item.workOnTime}}-{{item.workOffTime}}</text></view>
@@ -18,7 +18,7 @@
           <view class="rule-status">已启用</view>
         </block>
         <block wx:else>
-          <view class="rule-status status-submit" id="{{index}}" catchtap="enableRule">启用</view>
+          <view class="rule-status status-submit" id="{{index}}" data-rid = "{{item._id}}" catchtap="enableRule">启用</view>
         </block>
         <!--<view class="navigator-arrow"></view>-->
       </view>

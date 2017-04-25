@@ -11,8 +11,16 @@ var users = require('./routes/users');
 var createCompany = require('./routes/createCompany');
 var queryUser = require('./routes/queryUser');
 var updateMember = require('./routes/updateMember');
+var getInviteUser = require('./routes/getInviteUser');
+var getCompany = require('./routes/getCompany');
+var joinCompany = require('./routes/joinCompany');
+var getUserStatus = require('./routes/getUserStatus');
+var getDetailUserInfo = require('./routes/getDetailUserInfo');
 
-
+var updateRule = require('./routes/updateRule');
+var addRule = require('./routes/addRule');
+var deleteRule = require('./routes/deleteRule');
+var enableRule = require('./routes/enableRule');
 
 var mongoose = require('mongoose');
 // var config = require('./models/config');
@@ -69,9 +77,20 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', index);
 app.use('/users', users);
 
+app.use('/enableRule',enableRule);
 app.use('/createCompany',createCompany);
 app.use('/queryUser',queryUser);
 app.use('/updateMemberInfo',updateMember);
+app.use('/getInviteUser',getInviteUser);
+app.use('/getCompany',getCompany);
+app.use('/joinCompany',joinCompany);
+app.use('/getUserStatus',getUserStatus);
+app.use('/getDetailUserInfo',getDetailUserInfo);
+
+app.use('/updateRule',updateRule);
+app.use('/addRule',addRule);
+app.use('/deleteRule',deleteRule);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
