@@ -12,7 +12,8 @@ router.post('/:cid', function(req,res,next){
     name:req.body.name,
     nickName:req.body.nickName,
     approveInfo:req.body.approveInfo,
-    approveStatus:0
+    approveStatus:0,
+    cid:req.params.cid
   });
   member.save(function(err){
     if(err){

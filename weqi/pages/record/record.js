@@ -10,12 +10,12 @@ Page({
     var _this = this;
     this.setData({
       localDate:_this.formatLocalDate(_this.getNowDate())
-    })
+    });
     this.checkUserConfig();
     //加载当前日期考勤记录
 
   },
-  getRecord(){
+  getRecord:function(){
     //获取考勤记录数据
   },
   checkUserConfig:function(){
@@ -64,16 +64,25 @@ Page({
   },
   bindDateChange: function(e) {
     var _this = this;
+    var nowDay = this.getNowDate();
     var singleDate = this.getSingleDate(e.detail.value);
 
     var singleYear = Number(singleDate.year);
     var singleMonth = Number(singleDate.month);
 
-    this.setData({
-      date: e.detail.value,
-      localDate:_this.formatLocalDate(e.detail.value)
-    });
-    this.renderRecordList(singleYear,singleMonth);
+    if((singleDate.year+'-'+singleDate.month)>nowDay){
+      wx.showToast({
+        title: '暂无考勤记录',
+        image: ''
+      });
+    }else{
+      this.setData({
+        date: e.detail.value,
+        localDate:_this.formatLocalDate(e.detail.value)
+      });
+      this.renderRecordList(singleYear,singleMonth);
+    }
+
   },
   getPrevDate:function(){
     var _this = this;

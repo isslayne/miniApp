@@ -38,7 +38,7 @@ Page({
       url:config.server+'/updateMemberInfo/'+_this.option.uid,
       method:'POST',
       data:{
-        approveStatus:1
+        approveStatus:1,
       },
       success:function(res){
         if(res.data.status !== 0){

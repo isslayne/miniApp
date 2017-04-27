@@ -65,16 +65,18 @@ Page({
       success:function(res){
         console.log(JSON.stringify(res));
         if(res.data.status === 0){
-          wx.showToast({
-            title:'保存成功',
-            icon:'success',
-            success:function(){
-              _this.setData({
-                isActive:false,
-                isSuccessActive:true
-              });
-            }
+          _this.setData({
+            isActive:false,
+            isSuccessActive:true
           });
+
+          // wx.showToast({
+          //   title:'保存成功',
+          //   icon:'success',
+          //   success:function(){
+          //
+          //   }
+          // });
         } else {
           wx.showToast({
             title:res.data.msg,

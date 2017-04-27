@@ -10,7 +10,7 @@ router.get('/', function(req,res,next){
     name:req.query.uid
   };
   Member.findOne(query, function(err,member){
-    if(err){
+    if(err ){
       res.json({
         status:10000,
         msg:'fail'
@@ -27,10 +27,11 @@ router.get('/', function(req,res,next){
       Company.findOne({_id:member.cid})
       .populate('ruleList')
       .exec(function(err,company){
+        console.log(member.cid);
         if(err){
           res.json({
             status:10000,
-            msg:'fail'
+            msg:'fail company'
           });
           return
         }

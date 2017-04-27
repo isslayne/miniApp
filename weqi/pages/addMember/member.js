@@ -5,7 +5,6 @@ Page({
     btnDisabled:true
   },
   onLoad:function(option){
-    // this.getCompanyInfo();
      this.cid = option.cid;
 
     this.getCompanyInfo(this.cid);
@@ -13,11 +12,6 @@ Page({
   },
   getWildData:function(){
     var _this = this;
-    // app.wildDogData.bindAsObject(this,'userInfo',function(err){
-    //   if(err != null){
-    //     console.log(userInfo);
-    //   }
-    // });
 
     app.wildDogData.child('company').once('value', function(data){
       console.log(data.val());

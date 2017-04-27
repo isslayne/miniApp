@@ -31,17 +31,6 @@ Page({
       }
     })
   },
-  getWildDogData:function(){
-    var userInfo = {};
-    var _this = this;
-    app.wildDogData.orderByValue().on('value', function(snapshot){
-      snapshot.forEach(function(data){
-        var key = data.key();
-        userInfo[data.key()] =  data.val();
-      });
-      _this.saveInfo(userInfo);
-    });
-  },
   saveInfo:function(data){
     var _this = this;
     var second =5;

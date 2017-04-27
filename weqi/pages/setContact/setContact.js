@@ -34,7 +34,7 @@ Page({
     var _this = this;
     var localUserConfig;
     app.getUserInfo(function(userInfo){
-      localUserConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+      this.localUserConfig = localUserConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
     });
 
     wx.request({
@@ -83,7 +83,8 @@ Page({
       url:config.server+'/updateMemberInfo/'+e.currentTarget.dataset.id,
       method:'POST',
       data:{
-        approveStatus:1
+        approveStatus:1,
+        cid:this.localUserConfig.cid
       },
       success:function(res){
         if(res.data.status !== 0){
