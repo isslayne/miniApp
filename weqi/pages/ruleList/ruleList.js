@@ -167,5 +167,12 @@ Page({
       url:'../setRule/rule?ruleId='+id+'&rid='+e.currentTarget.dataset.rid
     })
 
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-考勤规则列表',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/ruleList/ruleList'
+    }
   }
 });

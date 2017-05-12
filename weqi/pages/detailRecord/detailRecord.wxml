@@ -25,13 +25,13 @@
             </view>
             <view class="grid white-color box box-align-center box-pack-center" wx:for="{{filterList}}" wx:key="{{index}}" data-idx="{{index}}">
               <block wx:if="{{item.status == 1 ||item.status==2 || item.status == 3}}">
-                <view class="day abnormal-day {{item.day.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.day.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.day.date}}" bindtap = "getDayRecord">{{item.day.day}}</view>
+                <view class="day abnormal-day {{item.days.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.days.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.days.date}}" bindtap = "getDayRecord">{{item.days.day}}</view>
               </block>
               <block wx:elif="{{item.status == 4}}">
-                <view class="day absence-day {{item.day.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.day.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.day.date}}" bindtap = "getDayRecord">{{item.day.day}}</view>
+                <view class="day absence-day {{item.days.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.days.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.days.date}}" bindtap = "getDayRecord">{{item.days.day}}</view>
               </block>
               <block wx:else>
-                <view class="day {{item.day.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.day.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.day.date}}" bindtap = "getDayRecord">{{item.day.day}}</view>
+                <view class="day {{item.days.date == pickedDay ? 'border-radius picked-day' : ''}} {{item.days.date == cur_dateDay ? 'border-radius cur-day' : ''}} box box-align-center box-pack-center" data-date = "{{item.days.date}}" bindtap = "getDayRecord">{{item.days.day}}</view>
               </block>
             </view>
         </view>

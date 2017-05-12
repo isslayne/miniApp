@@ -167,5 +167,12 @@ Page({
     wx.redirectTo({
       url:'../activeSignInfo/active'
     })
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-审核状态',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/memberStatus/status'
+    }
   }
 });

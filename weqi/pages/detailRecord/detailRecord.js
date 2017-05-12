@@ -263,48 +263,66 @@ const conf = {
   renderMonthStatus:function(list,month){
     var filterList =[];
     var monthArray = this.data.days;
-    if(list){
-      list.forEach(function(item){
-        monthArray.forEach(function(days){
+    monthArray.forEach(function(days){
+      var daysObj = {
+        status:0,
+        date:days.date,
+        days:days
+      };
+      filterList.push(daysObj);
+    });
+    if(list && list.length){
+      filterList.forEach(function(days,index){
+        list.forEach(function(item){
+          var dayStatus = {
+            status:0,
+            day:days.days
+          };
           if(item.signDate == days.date){
-            if(item.signInStatus ==1||item.signInStatus ==3){
-              var dayStatus = {
-                status:item.signInStatus,
-                day:days
+            if(item.signInStatus ==1 && item.signOffStatus ==2){
+              dayStatus = {
+                status:4,
+                days:days.days
               };
+              filterList[index] = dayStatus;
+            }else if(item.signInStatus ==1){
+               dayStatus = {
+                status:item.signInStatus,
+                days:days.days
+              };
+              filterList[index] = dayStatus;
+            }else if(item.signInStatus ==3){
+              dayStatus = {
+                status:item.signInStatus,
+                days:days.days
+              };
+              filterList[index] = dayStatus;
             }else if(item.signInStatus ==0 && item.signOffStatus ==2 ){
               dayStatus = {
                 status:item.signOffStatus,
-                day:days
+                days:days.days
               };
-            }else if(item.signInStatus ==1 && item.signOffStatus ==2){
-              dayStatus = {
-                status:4,
-                day:days
-              };
+              filterList[index] = dayStatus;
             }else{
               dayStatus = {
                 status:0,
-                day:days
+                days:days.days
               };
+              filterList[index] = dayStatus;
             }
 
-          }else{
-            dayStatus = {
-              status:0,
-              day:days
-            };
           }
-          filterList.push(dayStatus);
+          // filterList.push(dayStatus);
+          // filterList[index] = dayStatus;
         })
       });
     } else{
-      monthArray.forEach(function(days){
+      filterList.forEach(function(days,index){
         var dayStatus = {
           status:0,
-          day:days
+          days:days.days
         };
-        filterList.push(dayStatus);
+        filterList[index] = (dayStatus);
       })
     }
 
@@ -334,7 +352,7 @@ const conf = {
   },
   onShareAppMessage() {
     return {
-      title: '移动考勤小程序',
+      title: '移动考勤-记录详情',
       desc: '移动考勤',
       path: 'pages/signIn/sign'
     }

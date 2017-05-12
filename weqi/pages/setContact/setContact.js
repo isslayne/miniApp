@@ -34,7 +34,7 @@ Page({
     var _this = this;
     var localUserConfig;
     app.getUserInfo(function(userInfo){
-      this.localUserConfig = localUserConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
+      _this.localUserConfig = localUserConfig = wx.getStorageSync(app.globalData.userInfo.nickName);
     });
 
     wx.request({
@@ -108,5 +108,12 @@ Page({
         }
       }
     })
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-成员管理',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/setContact/setContact'
+    }
   }
 });

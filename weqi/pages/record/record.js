@@ -329,5 +329,12 @@ Page({
     wx.navigateTo({
       url:'../detailRecord/detailRecord'
     });
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-考勤记录',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/record/record'
+    }
   }
 });

@@ -106,5 +106,12 @@ Page({
           }
       }
     })
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-员工管理',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/setting/setting'
+    }
   }
 });

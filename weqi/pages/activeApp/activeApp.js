@@ -33,5 +33,12 @@ Page({
         });
       }
     })
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-扫一扫',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/setContact/detail/detail'
+    }
   }
 })

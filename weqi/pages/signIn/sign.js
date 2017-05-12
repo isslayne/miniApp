@@ -39,7 +39,7 @@ Page({
       //   url:'../activeSignInfo/active'
       // });
       // wx.redirectTo({
-      //     url:'../addMember/member?cid=58f8aee60662fb0d18b099e8'
+      //     url:'../addMember/member?cid=590c5914436f7e4063a5f742'
       // })
       // wx.redirectTo({
       //   url:'../activeApp/activeApp'
@@ -657,9 +657,9 @@ Page({
   onShareAppMessage:function(){
     return {
       title: '移动考勤小程序',
-      desc: '移动考勤',
+      desc: '移动考勤，简化流程一步到位打卡签到',
       path: 'pages/signIn/sign'
     }
   }
-  
+
 });

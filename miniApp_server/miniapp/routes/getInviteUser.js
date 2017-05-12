@@ -12,6 +12,7 @@ router.post('/', function(req,res,next){
     Company.findOne(query)
     .populate('member')
     .exec(function(err,company){
+      console.log(company);
       if(err){
         res.json({
           status:10000,

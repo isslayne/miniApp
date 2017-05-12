@@ -21,5 +21,12 @@ Page({
         QRcode_icon:Qrcode
       })
     });
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-邀请成员',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/QRCode/QRCode'
+    }
   }
 });

@@ -177,5 +177,12 @@ Page({
     wx.navigateTo({
       url:'../QRCode/QRCode'
     })
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-创建公司',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/activeSignInfo/active'
+    }
   }
 });

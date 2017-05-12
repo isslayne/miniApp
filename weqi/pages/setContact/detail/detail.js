@@ -116,5 +116,12 @@ Page({
     //
     //   }
     // })
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-成员信息',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/setContact/detail/detail'
+    }
   }
 });

@@ -80,5 +80,12 @@ Page({
         });
       }
     })
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-填写申请信息',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/addMember/addMember'
+    }
   }
 });

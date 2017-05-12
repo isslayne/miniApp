@@ -12,6 +12,7 @@ router.post('/',function(req,res,next){
   ruleList.workOnTime ='08:30';
   ruleList.workOffTime ='17:30';
   ruleList.workDay ='1,2,3,4,5';
+  ruleList.status =true;
 
   var company = new Company({name:req.body.companyName});
 

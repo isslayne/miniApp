@@ -75,5 +75,12 @@ Page({
     wx.navigateTo({
       url:'../QRCode/QRCode'
     })
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-个人中心',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/manage/manage'
+    }
   }
 })

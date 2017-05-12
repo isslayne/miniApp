@@ -389,5 +389,12 @@ Page({
       list:list
     });
 
+  },
+  onShareAppMessage:function(){
+    return {
+      title: '移动考勤-设置考勤规则',
+      desc: '移动考勤，简化流程一步到位打卡签到',
+      path: 'pages/setRule/rule'
+    }
   }
 })
